@@ -28,10 +28,10 @@ func build() -> void:
 	# the great wall (visual): gap is the pit between the ledges
 	Builder.decor(self, Rect2(GAP_L, 620, GAP_R - GAP_L, 300), Color(0.02, 0.02, 0.04), -3)
 	# gantry the rope hangs from
-	Builder.decor(self, Rect2(780, 190, 480, 10), Color(0.04, 0.04, 0.07), -2)
-	Builder.decor(self, Rect2(780, 190, 10, 320), Color(0.04, 0.04, 0.07), -2)
-	Builder.decor(self, Rect2(1250, 190, 10, 320), Color(0.04, 0.04, 0.07), -2)
-	rope = Rope.make(Vector2(1020, 200), 16)
+	Builder.decor(self, Rect2(780, 240, 480, 10), Color(0.04, 0.04, 0.07), -2)
+	Builder.decor(self, Rect2(780, 240, 10, 270), Color(0.04, 0.04, 0.07), -2)
+	Builder.decor(self, Rect2(1250, 240, 10, 270), Color(0.04, 0.04, 0.07), -2)
+	rope = Rope.make(Vector2(1020, 250), 18)
 	add_child(rope)
 	# the far side: the first light on their side is reserved for Mom's doorway (warm), blue is the world
 	Builder.point_light(self, Vector2(1700, 300), Gfx.BLUE, 5.0, 1.0, false)
@@ -75,7 +75,7 @@ func can_grab(k: Kid) -> bool:
 
 func _haul() -> void:
 	if rope.holder == null:
-		rope.pull(-1.0, 300.0)
+		rope.pull(-1.0, 520.0)
 		Sfx.blip(160.0, 0.08, 0.12, 1)
 
 func _physics_process(delta: float) -> void:
@@ -93,7 +93,7 @@ func _physics_process(delta: float) -> void:
 		assist_t += delta
 		if assist_t > 1.4:
 			assist_t = 0.0
-			rope.pull(-1.0, 340.0)  # Mom hauls the line to Small
+			rope.pull(-1.0, 520.0)  # Mom hauls the line to Small
 	if phase == 0 and rope.holder == null:
 		pass
 
@@ -150,7 +150,7 @@ func _after_reveal() -> void:
 		var tw := create_tween()
 		tw.tween_property(mom, "position:x", 780.0, 1.2)
 		say("Mom is hauling the line. Grab it with E. Swing. Space to let go.")
-		rope.pull(-1.0, 340.0))
+		rope.pull(-1.0, 520.0))
 
 func _ending() -> void:
 	phase = 3

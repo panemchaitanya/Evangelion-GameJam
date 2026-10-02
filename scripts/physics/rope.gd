@@ -29,7 +29,7 @@ func _build(top: Vector2) -> void:
 		var s := RigidBody2D.new()
 		s.position = top + Vector2(0, SEG_LEN * (i + 0.5))
 		s.mass = 0.25
-		s.linear_damp = 0.6
+		s.linear_damp = 0.25
 		s.angular_damp = 4.0
 		s.collision_layer = 0
 		s.collision_mask = 0
@@ -62,7 +62,7 @@ func _draw() -> void:
 		draw_polyline(pts, Color(0.35, 0.27, 0.18), 1.5, true)
 	draw_circle(anchor.position, 5.0, Color(0.3, 0.3, 0.33))
 
-func nearest_segment(p: Vector2, max_d: float = 46.0) -> RigidBody2D:
+func nearest_segment(p: Vector2, max_d: float = 64.0) -> RigidBody2D:
 	var best: RigidBody2D = null
 	var bd := max_d
 	for s in segs:
@@ -120,4 +120,4 @@ func _physics_process(delta: float) -> void:
 func pull(dir: float, strength: float = 260.0) -> void:
 	for i in segs.size():
 		var f := float(i + 1) / segs.size()
-		segs[i].apply_central_impulse(Vector2(dir * strength * f * segs[i].mass, 0))
+		segs[i].linear_velocity.x = dir * strength * f * f
