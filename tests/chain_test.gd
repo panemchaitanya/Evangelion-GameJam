@@ -26,6 +26,7 @@ func wait_level(id: String) -> void:
 func use_all(lv, kid_idx: int) -> void:
 	var k = lv.kids[kid_idx]
 	for it in lv.get_tree().get_nodes_in_group("interactables"):
+		if not is_instance_valid(lv) or main.level != lv: return
 		if it.get_parent() != lv or not it.enabled: continue
 		k.global_position = it.global_position + Vector2(0, -30); k.linear_velocity = Vector2.ZERO
 		await wait(0.15)
@@ -43,7 +44,6 @@ func _initialize() -> void:
 	await wait(0.4); await advance_ui()
 	main.level.mom.set_enabled(false)
 	await use_all(main.level, 2)
-	await use_all(main.level, 2)  # sleep spot enabled after items
 	await wait_level("act2_gate")
 	check("act1 -> act2_gate", main.level_id == "act2_gate")
 	await wait(0.4); await advance_ui()
