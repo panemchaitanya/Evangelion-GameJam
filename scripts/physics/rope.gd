@@ -9,6 +9,7 @@ var anchor: StaticBody2D
 var holder: Kid = null
 var hold_joint: PinJoint2D = null
 var count := 12
+var _saved_mass := 1.0
 
 static func make(top: Vector2, n: int = 12) -> Rope:
 	var r := Rope.new()
@@ -79,6 +80,8 @@ func grab(k: Kid) -> bool:
 		return false
 	holder = k
 	k.holding = self
+	_saved_mass = k.mass
+	k.mass = minf(k.mass, 1.4)  # keeps jointed ropes stable in web builds
 	# Hands sit at the segment: put the kid there then pin.
 	k.global_position = s.global_position + Vector2(0, k.body_size.y * 0.55)
 	k.linear_velocity = Vector2.ZERO
@@ -97,6 +100,7 @@ func release(boost: Vector2 = Vector2.ZERO) -> void:
 	var k := holder
 	holder = null
 	k.holding = null
+	k.mass = _saved_mass
 	if hold_joint:
 		hold_joint.queue_free()
 		hold_joint = null
@@ -111,3 +115,9 @@ func pump(dir: float, delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if holder != null:
 		pump(holder.move_dir, delta)
+
+## Pull the free end sideways (someone tugging the line toward them). dir: -1 left, +1 right.
+func pull(dir: float, strength: float = 260.0) -> void:
+	for i in segs.size():
+		var f := float(i + 1) / segs.size()
+		segs[i].apply_central_impulse(Vector2(dir * strength * f * segs[i].mass, 0))

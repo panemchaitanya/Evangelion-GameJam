@@ -2,7 +2,7 @@ extends Node
 ## Top-level flow: title -> levels. Restarts the current level when caught.
 
 var level: Level
-var level_id := "act1"
+var level_id := "title"
 
 func _ready() -> void:
 	# Dev shortcut: ?level=act2_gate on the web build, or `-- --level act2_gate` on desktop.

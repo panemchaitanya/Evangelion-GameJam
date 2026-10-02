@@ -66,6 +66,9 @@ func build() -> void:
 
 func _ready() -> void:
 	super._ready()
+	_start()
+
+func _start() -> void:
 	exposure_rate = 0.5
 	say("Morning. Conny leaves for his new family tonight. Find something to give him.")
 	call_deferred("_intro")

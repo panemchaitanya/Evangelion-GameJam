@@ -41,6 +41,9 @@ func _ready() -> void:
 func build() -> void:
 	pass
 
+func can_grab(_k: Kid) -> bool:
+	return true
+
 func _wire_noise() -> void:
 	for n in get_children():
 		if n is Crate or n is Kid:
@@ -129,6 +132,9 @@ func _unhandled_input(e: InputEvent) -> void:
 					if it.get_parent() == self and it.can_use(k):
 						it.use(k)
 						return
+				if not can_grab(k):
+					say("Not yet. Go when it is safe.")
+					return
 				for r in get_tree().get_nodes_in_group("ropes"):
 					if (r as Rope).grab(k):
 						break
@@ -142,6 +148,8 @@ func _physics_process(delta: float) -> void:
 	time += delta
 	for kd in kids:
 		kd.frozen = locked
+		if kd.global_position.y > bounds.end.y + 200.0 or kd.global_position.y > 1500.0:
+			respawn(kd)
 	if ended or kids.is_empty():
 		return
 	cam.global_position = active_kid().global_position + Vector2(0, -40)
@@ -184,6 +192,13 @@ func _on_dialogue_done() -> void:
 	_pending_done = Callable()
 	if cb.is_valid():
 		cb.call()
+
+## Fell out of the world: put the kid back at their last safe spot (no punishment).
+func respawn(kd: Kid) -> void:
+	if kd.holding != null:
+		(kd.holding as Rope).release()
+	kd.global_position = kd.safe_pos
+	kd.linear_velocity = Vector2.ZERO
 
 func say(text: String) -> void:
 	hint_label.text = text

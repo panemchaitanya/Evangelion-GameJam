@@ -26,6 +26,7 @@ var height := 92.0
 var body_color := Color(0.12, 0.10, 0.14)
 var accent := Color(0.7, 0.6, 0.5)
 var step_t := 0.0
+var scripted := false
 
 static func make(k: String, pts: Array, fy: float, st: String = "routine") -> Warden:
 	var w := Warden.new()
@@ -85,6 +86,11 @@ func set_enabled(e: bool) -> void:
 
 func _physics_process(delta: float) -> void:
 	if not enabled:
+		return
+	if scripted:
+		sweep_t += delta
+		_aim()
+		queue_redraw()
 		return
 	sweep_t += delta
 	timer -= delta
