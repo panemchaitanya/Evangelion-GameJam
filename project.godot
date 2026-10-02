@@ -50,3 +50,5 @@ textures/canvas_textures/default_texture_filter=1
 [autoload]
 
 Sfx="*res://scripts/world/sfx.gd"
+Music="*res://scripts/world/music.gd"
+Game="*res://scripts/game.gd"

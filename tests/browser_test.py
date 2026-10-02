@@ -17,7 +17,7 @@ with sync_playwright() as p:
     pg.mouse.click(640,360)
     def hold(key, s):
         pg.keyboard.down(key); time.sleep(s); pg.keyboard.up(key)
-    hold("d", 2.0); pg.screenshot(path=out+"_1.png")
+    hold("d", 0.1); pg.screenshot(path=out+"_1.png")
     pg.keyboard.press("Tab"); time.sleep(0.3); hold("d", 1.0)
     pg.keyboard.press("Space"); time.sleep(0.5); pg.screenshot(path=out+"_2.png")
     print("\n".join(l for l in logs if "error" in l.lower() or "ERROR" in l)[:3000] or "no console errors")

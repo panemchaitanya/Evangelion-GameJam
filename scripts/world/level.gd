@@ -4,7 +4,7 @@ extends Node2D
 ## Subclasses override build().
 
 signal caught
-signal finished
+signal finished(next: String)
 
 var kids: Array[Kid] = []
 var active_idx := 0
@@ -22,12 +22,17 @@ var kid_label: Label
 var ended := false
 var stealth_on := true
 var time := 0.0
+var locked := false
+var dialogue: Dialogue
+var manga: MangaPage
+var _pending_done := Callable()
 
 func _ready() -> void:
 	modulate_node = CanvasModulate.new()
 	modulate_node.color = ambient
 	add_child(modulate_node)
 	build()
+	_wire_noise()
 	_make_camera()
 	_make_hud()
 	if kids.size() > 0:
@@ -35,6 +40,15 @@ func _ready() -> void:
 
 func build() -> void:
 	pass
+
+func _wire_noise() -> void:
+	for n in get_children():
+		if n is Crate or n is Kid:
+			(n as Node).connect("noise", _on_noise)
+
+func _on_noise(pos: Vector2, loud: float) -> void:
+	for w in get_tree().get_nodes_in_group("wardens"):
+		(w as Warden).hear(pos, loud)
 
 func add_kid(k: int, pos: Vector2) -> Kid:
 	var kd := Kid.make(k)
@@ -71,6 +85,12 @@ func _make_camera() -> void:
 		cam.global_position = active_kid().global_position
 
 func _make_hud() -> void:
+	dialogue = Dialogue.new()
+	add_child(dialogue)
+	dialogue.done.connect(_on_dialogue_done)
+	manga = MangaPage.new()
+	add_child(manga)
+	manga.done.connect(_on_dialogue_done)
 	hud = CanvasLayer.new()
 	hud.layer = 10
 	add_child(hud)
@@ -94,6 +114,8 @@ func _make_hud() -> void:
 	hud.add_child(hint_label)
 
 func _unhandled_input(e: InputEvent) -> void:
+	if locked:
+		return
 	if e.is_action_pressed("switch_kid"):
 		next_kid()
 		get_viewport().set_input_as_handled()
@@ -103,6 +125,10 @@ func _unhandled_input(e: InputEvent) -> void:
 			if k.holding != null:
 				(k.holding as Rope).release(Vector2(k.facing * 80.0, -120.0))
 			else:
+				for it in get_tree().get_nodes_in_group("interactables"):
+					if it.get_parent() == self and it.can_use(k):
+						it.use(k)
+						return
 				for r in get_tree().get_nodes_in_group("ropes"):
 					if (r as Rope).grab(k):
 						break
@@ -114,6 +140,8 @@ func _unhandled_input(e: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	time += delta
+	for kd in kids:
+		kd.frozen = locked
 	if ended or kids.is_empty():
 		return
 	cam.global_position = active_kid().global_position + Vector2(0, -40)
@@ -139,6 +167,23 @@ func _update_exposure(delta: float) -> void:
 		ended = true
 		Sfx.blip(120.0, 0.5, 0.3)
 		emit_signal("caught")
+
+func talk(lines: Array, then: Callable = Callable()) -> void:
+	locked = true
+	_pending_done = then
+	dialogue.play(lines)
+
+func comic(panels: Array, then: Callable = Callable()) -> void:
+	locked = true
+	_pending_done = then
+	manga.play(panels)
+
+func _on_dialogue_done() -> void:
+	locked = false
+	var cb := _pending_done
+	_pending_done = Callable()
+	if cb.is_valid():
+		cb.call()
 
 func say(text: String) -> void:
 	hint_label.text = text

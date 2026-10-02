@@ -19,6 +19,7 @@ var jump_speed := 330.0
 var body_size := Vector2(22, 40)
 var color := Color.WHITE
 var hum_t := 0.0
+var frozen := false
 var holding: Node2D = null  # rope handle etc, set by physics rigs
 var _anim := 0.0
 
@@ -72,7 +73,7 @@ func _setup() -> void:
 
 func _physics_process(delta: float) -> void:
 	on_ground = _check_ground()
-	if active:
+	if active and not frozen:
 		move_dir = Input.get_axis("move_left", "move_right")
 		if Input.is_action_just_pressed("jump"):
 			want_jump = true
