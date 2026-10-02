@@ -32,13 +32,13 @@ func _initialize() -> void:
 		if absf(vx) > 5.0: Input.action_press("move_right" if vx > 0 else "move_left")
 		else: Input.action_press("move_right")
 		await wait(0.016)
-		if k.holding != null and k.global_position.x > 1150.0 and k.linear_velocity.x > 0.0 and k.global_position.y < 495.0:
+		if k.holding != null and k.global_position.x > 1150.0 and k.linear_velocity.x > 0.0 and k.global_position.y < 545.0:
 			lvl.rope.release(Vector2(k.facing * 160.0, -240.0))
 			Input.action_release("move_right"); Input.action_release("move_left")
 			print("released at ", k.global_position, " v=", k.linear_velocity)
 			break
 	await wait(1.5)
 	print("final pos=", k.global_position, " crossed=", lvl.crossed)
-	var ok: bool = k.global_position.x > 1220.0 and k.global_position.y < 540.0
+	var ok: bool = k.global_position.x > 1220.0 and k.global_position.y < 575.0
 	print("RESULT ", "PASS" if ok else "FAIL")
 	quit(0 if ok else 1)

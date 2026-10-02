@@ -19,7 +19,7 @@ func build() -> void:
 	Builder.block(self, Rect2(-100, 600, 760, 300), Color(0.30, 0.30, 0.34), false, Color(0.38, 0.40, 0.46))
 	Builder.block(self, Rect2(560, 550, 100, 50), Color(0.28, 0.28, 0.32), false, Color(0.38, 0.40, 0.46))
 	Builder.block(self, Rect2(660, 500, 180, 400), Color(0.28, 0.28, 0.32), false, Color(0.38, 0.40, 0.46))
-	Builder.block(self, Rect2(1200, 500, 700, 400), Color(0.28, 0.28, 0.32), false, Color(0.40, 0.44, 0.52))
+	Builder.block(self, Rect2(1200, 580, 700, 400), Color(0.28, 0.28, 0.32), false, Color(0.40, 0.44, 0.52))
 	Builder.block(self, Rect2(-200, -300, 200, 1200), Gfx.WALL, false)
 	Builder.block(self, Rect2(1900, -300, 200, 1200), Gfx.WALL, false)
 	Builder.decor(self, Rect2(0, -300, 2000, 900), Color(0.08, 0.11, 0.25), -30)
@@ -81,7 +81,7 @@ func _haul() -> void:
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	for k in kids:
-		if not crossed.has(k.kind) and k.global_position.x > GAP_R + 40.0 and k.global_position.y < 540.0:
+		if not crossed.has(k.kind) and k.global_position.x > GAP_R + 40.0 and k.global_position.y < 575.0:
 			crossed[k.kind] = true
 			Sfx.blip(780.0, 0.15, 0.15)
 			if crossed.size() == 2 and phase == 0 and not mom_event:
