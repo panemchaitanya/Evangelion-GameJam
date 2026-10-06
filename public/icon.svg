@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="38%" r="65%">
+      <stop offset="0" stop-color="#343434"/>
+      <stop offset=".65" stop-color="#111"/>
+      <stop offset="1" stop-color="#020202"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="10"/></filter>
+  </defs>
+  <rect width="512" height="512" rx="104" fill="url(#g)"/>
+  <ellipse cx="256" cy="420" rx="170" ry="30" fill="#020202" opacity=".85"/>
+  <!-- moth silhouette -->
+  <g fill="#030303">
+    <!-- wings -->
+    <path d="M248 190 C170 120 96 116 74 168 C56 212 92 268 152 292 C104 300 76 332 88 366 C102 404 176 400 236 342 L248 330 Z"/>
+    <path d="M264 190 C342 120 416 116 438 168 C456 212 420 268 360 292 C408 300 436 332 424 366 C410 404 336 400 276 342 L264 330 Z"/>
+    <!-- body -->
+    <ellipse cx="256" cy="268" rx="17" ry="86"/>
+    <circle cx="256" cy="172" r="22"/>
+    <!-- antennae -->
+    <path d="M248 156 C228 118 206 104 186 100" stroke="#030303" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M264 156 C284 118 306 104 326 100" stroke="#030303" stroke-width="7" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- wing spots -->
+  <g fill="#1c1c1c">
+    <ellipse cx="152" cy="212" rx="22" ry="15" transform="rotate(-24 152 212)"/>
+    <ellipse cx="360" cy="212" rx="22" ry="15" transform="rotate(24 360 212)"/>
+  </g>
+  <!-- glowing eyes -->
+  <g fill="#fff" filter="url(#glow)" opacity=".9"><circle cx="247" cy="170" r="9"/><circle cx="265" cy="170" r="9"/></g>
+  <g fill="#fff"><circle cx="247" cy="170" r="4.5"/><circle cx="265" cy="170" r="4.5"/></g>
+  <text x="256" y="478" text-anchor="middle" fill="#d9d9d5" font-family="Georgia,serif" font-size="40" letter-spacing="20">MOTH</text>
+</svg>
