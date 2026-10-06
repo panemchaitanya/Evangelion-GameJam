@@ -29,7 +29,7 @@ Drawn in code (canvas paths and gradients). No images, paintings or models from 
 | ch04_dark_hall_stalker.ogg | congusbongus, "Lost in a Bad Place" |
 | ch05_red_corridor_urgency.ogg | gmason, "Tense Future Loop" |
 | outro_run_urgent.ogg | Spring Spring, "Urgent!" |
-| lullaby_musicbox_intro_outro.ogg | AI-assisted composition for this game, 2026 |
+| lullaby_musicbox_intro_outro.ogg | Title lullaby: melody directed by Team Evangelion, produced with AI tools, for this game, 2026. |
 | ward_glass_pod_lullaby.ogg | Zane Little Music, "Goodbye Lullaby - Day 4" |
 | finale_pages_grief_crescendo.ogg | Emma_MA, "Chasing despair" |
 
