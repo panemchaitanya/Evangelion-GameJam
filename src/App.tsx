@@ -335,7 +335,7 @@ export default function App() {
         <div className="credits-overlay" onClick={() => setShowCredits(false)} role="button" tabIndex={0}>
           <div className="credits-body">
             <h2>THE STARS THAT SANK US TO SLEEP · Team Evangelion</h2>
-            <p>Engine: MOTH by ahmedallam222 (MIT, github.com/ahmedallam222/moth-game)</p>
+            <p>Engine: MOTH (MIT)</p>
             <p>Comic pages and art: made for this jam by Team Evangelion</p>
             <h3>Music (CC0, OpenGameArt)</h3>
             <p>Tozan - Strings and Piano RPG · yd - 4 Music Box Tracks, Factory Ambiance · TinyWorlds - Narrow Corridors · NekroRave - Suspense · Rogudex - I Want to go Home · Spring Spring - Urgent! · Emma_MA - Chasing despair · Zane Little Music - Goodbye Lullaby, Day 4 · congusbongus - Abandoned Passages, Lost in a Bad Place · epb9000 - Creepy Ambient Loop · gmason - Tense Future Loop</p>

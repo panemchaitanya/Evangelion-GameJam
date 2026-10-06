@@ -90,4 +90,4 @@ The exact file-by-file register of every shipped sound, music track and image is
 
 ## Credits and license
 
-This game starts from the open source engine **MOTH** by ahmedallam222 (https://github.com/ahmedallam222/moth-game), released under the MIT license. This repository is also MIT licensed. This project rebuilds its look, characters, mechanics, text and story on top of that engine. The original copyright notice is kept in [LICENSE](LICENSE). Full attributions, including the audio, are in [CREDITS.md](CREDITS.md).
+This game starts from the open source engine **MOTH**, released under the MIT license. This repository is also MIT licensed. This project rebuilds its look, characters, mechanics, text and story on top of that engine. The original copyright notice is kept in [LICENSE](LICENSE). Full attributions, including the audio, are in [CREDITS.md](CREDITS.md).
