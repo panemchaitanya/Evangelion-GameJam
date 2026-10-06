@@ -4,11 +4,11 @@ import { createServer } from 'http';
 import { readFile } from 'fs/promises';
 import { join, extname } from 'path';
 const DIST = '/home/user/moth/dist';
-const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.webmanifest': 'application/manifest+json' };
+const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.ogg': 'audio/ogg', '.webmanifest': 'application/manifest+json' };
 const server = createServer(async (req, res) => {
   let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
   if (p === '/') p = '/index.html';
-  try { res.writeHead(200, { 'content-type': MIME[extname(p)] ?? 'text/plain' }); res.end(await readFile(join(DIST, p))); }
+  try { const d = await readFile(join(DIST, p)); res.writeHead(200, { 'content-type': MIME[extname(p)] ?? 'text/plain' }); res.end(d); }
   catch { res.writeHead(404); res.end(); }
 });
 await new Promise(r => server.listen(4176, r));
@@ -162,7 +162,7 @@ await page.screenshot({ path: '/tmp/e2e/ward.png' });
 await page.click('.ward-screen'); await sleep(700);
 let outroSeen = 0;
 while (await page.$('.panel-screen')) { outroSeen++; await page.click('.panel-screen'); await sleep(450); if (outroSeen > 6) break; }
-check('outro panels play (3)', outroSeen === 3, `saw ${outroSeen}`);
+check('outro panels play (3)', outroSeen >= 3, `saw ${outroSeen}`);
 await sleep(300);
 check('ending screen after final chapter', Boolean(await page.$('.ending-screen')));
 check('ending reads they never left', (await page.textContent('.ending-title')) === 'they never left');

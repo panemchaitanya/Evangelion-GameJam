@@ -16,18 +16,19 @@ export const STORY = {
   ],
   // comic panels: intro plays once on boot before the title, outro plays after the ward. Missing images are skipped.
   panels: {
-    intro: [
-      { src: 'panels/intro1.jpg', cap: 'the house keeps one window dark.' },
-      { src: 'panels/intro2.jpg', cap: 'three small shadows looked up.' },
-      { src: 'panels/intro3.jpg', cap: 'the light found the footprints.' },
-    ],
+    // file names: public/panels/<name>.jpg. Missing files are skipped. No captions are rendered.
+    intro: ['intro0', 'intro1b', 'intro1', 'intro2', 'intro3'].map(n => ({ src: `panels/${n}.jpg`, cap: '' })),
     outro: [
-      { src: 'panels/outro1.jpg', cap: 'the gate was open. it was not freedom.' },
-      { src: 'panels/outro2.jpg', cap: '' },
-      { src: 'panels/pageE.jpg', cap: '', page: true },
+      ...['outro1', 'outroO1', 'outroO2', 'outro2', 'outroO3'].map(n => ({ src: `panels/${n}.jpg`, cap: '' })),
+      ...['finF1', 'finF2', 'pageE', 'finF3', 'finF4'].map(n => ({ src: `panels/${n}.jpg`, cap: n === 'finF1' ? 'The first child she ever lost was her own.' : '', page: true })),
     ],
-    // wordless comic page shown before each chapter (keyed by chapter index). Missing file = skipped silently.
-    chapter: { 1: 'panels/pageA.jpg', 2: 'panels/pageB.jpg', 3: 'panels/pageC.jpg', 4: 'panels/pageD.jpg' } as Record<number, string>,
+    // comic pages shown before each chapter (keyed by chapter index), once per page load.
+    chapter: {
+      1: ['pageA0', 'pageA', 'pageA2', 'pageA3', 'pageA4'],
+      2: ['pageB0', 'pageB', 'pageB2', 'pageB3', 'pageB4'],
+      3: ['pageC0', 'pageC', 'pageC2', 'pageC3', 'pageC4'],
+      4: ['pageD1', 'pageD', 'pageD2', 'pageD3', 'pageD4'],
+    } as Record<number, string[]>,
   },
   // THE COUNTED ONE: one kid was already on the list. Their star is painted above a bed number.
   counted: { kid: 'ila', bed: 'nine' },

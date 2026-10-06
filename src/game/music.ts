@@ -8,18 +8,19 @@ const BASE = 'music/';
 // One slot per beat. `file` is the track; `fb` is the slot to fall back to if the file is missing/unplayable
 // (so a not-yet-delivered track just keeps the current behaviour). Swap files here when the final pack lands.
 const TRACKS: Record<string, { file: string; vol: number; fb?: string }> = {
-  intro: { file: 'intro_comic.ogg', vol: 0.5 },
-  pageA: { file: 'ch01_crawl_dread.ogg', vol: 0.5 },
-  pageB: { file: 'ch02_steam_house.ogg', vol: 0.5 },
-  pageC: { file: 'ch03_boiler_deep.ogg', vol: 0.5 },
-  pageD: { file: 'ch04_dark_hall_stalker.ogg', vol: 0.5 },
+  intro: { file: 'intro_pages_home_strings_piano.ogg', vol: 0.5 },
+  pageA: { file: 'page_A_toms_bed_grief_musicbox.ogg', vol: 0.45, fb: 'ch1' },
+  pageB: { file: 'page_B_underbelly_tense_hush.ogg', vol: 0.5, fb: 'ch2' },
+  pageC: { file: 'page_C_grate_reveal_dread_swell.ogg', vol: 0.5, fb: 'ch3' },
+  pageD: { file: 'page_D_escape_plan_home_warm_cello.ogg', vol: 0.5, fb: 'ch4' },
   ch1: { file: 'ch01_crawl_dread.ogg', vol: 0.5 },
   ch2: { file: 'ch02_steam_house.ogg', vol: 0.5 },
   ch3: { file: 'ch03_boiler_deep.ogg', vol: 0.5 },
   ch4: { file: 'ch04_dark_hall_stalker.ogg', vol: 0.5 },
   ch5: { file: 'ch05_red_corridor_urgency.ogg', vol: 0.45 },
-  outro: { file: 'finale_melancholic.ogg', vol: 0.55 },
-  finale: { file: 'finale_melancholic.ogg', vol: 0.55 },
+  outro: { file: 'outro_run_urgent.ogg', vol: 0.55, fb: 'ch1' },
+  ward: { file: 'ward_glass_pod_lullaby.ogg', vol: 0.5, fb: 'ch1' },
+  finale: { file: 'finale_pages_grief_crescendo.ogg', vol: 0.55 },
 };
 /** crossfade length between any two tracks */
 const XFADE_MS = 3000;

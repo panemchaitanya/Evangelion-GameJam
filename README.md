@@ -1,14 +1,14 @@
-# Lullaby118
+# THE STARS THAT SANK US TO SLEEP
 
 *A lullaby for the ones who stayed awake.*
 
+Part 1: Lullaby (repository name: Lullaby118)
+
 **Play it now: https://lullaby118-git-indy-evangelion.vercel.app/** (runs in any modern browser, phone or desktop, no install)
 
-Lullaby118 is a short, quiet escape platformer. Three children wake in the night inside Greywillow House, a place that keeps forty lamps burning. They have to get out together. Each of them can do something the others cannot, and the House is listening.
+The game is a short, quiet escape platformer. Three children wake in the night inside Greywillow House, a place that keeps forty lamps burning. They have to get out together. Each of them can do something the others cannot, and the House is listening.
 
 Built for the TGC Game Jam 2026 (Infinium'26, IIIT-H) by **Team Evangelion**.
-
-This is *The Stars That Sank Us to Sleep, Part 1: Lullaby*.
 
 ## Premise
 
@@ -50,8 +50,8 @@ An on-screen stick moves the lead child. Two buttons jump and interact. Three sm
 - TypeScript, React and Vite
 - Canvas 2D rendering, with the game world drawn in code
 - Web Audio API for sound effects and ambience, generated live
-- Recorded audio (all CC0): the warden's hum, the chapter music and the sound effects, see Credits below
-- Comic panels for the intro, outro and chapter pages, made for this jam
+- Recorded audio (all CC0): chapter and comic-page music, sound effects and the warden's hum, see Audio and art credits below
+- Comic pages for the intro, chapters, ward and ending, made for this jam
 - Vitest for unit tests and Playwright scripts for end to end runs
 - Static build, hosted on Vercel
 
@@ -80,17 +80,14 @@ Team Evangelion
 
 The project proposal is in this repo: [proposal.pdf](proposal.pdf).
 
-## Audio credits
+## Audio and art credits
 
-All recorded audio is CC0.
+All recorded audio is CC0, from OpenGameArt contributors: Tozan, yd, TinyWorlds, NekroRave, Rogudex, congusbongus, epb9000, gmason, Spring Spring, Zane Little Music, Emma_MA, rubberduck, artisticdude and Bobjt. The warden hum is "woman humming distant echo" by Pennywind (Freesound, CC0).
 
-- **Music and sound effects** (chapter, intro and finale tracks, plus the SFX in public/sfx): from a CC0 pack. Contributors credited by the pack: Tsorthan Grove, congusbongus, epb9000, yd, gmason, Emma_MA, rubberduck, bart, Spring Spring, Bobjt, Exewin and artisticdude.
-- **Warden hum**: "woman humming distant echo" by Pennywind, Freesound 816686, CC0.
+The comic pages were made for this jam entry by Team Evangelion.
 
-## Comic art
-
-The comic panels (intro, outro and the chapter pages) were made for this jam entry.
+The exact file-by-file register of every shipped sound, music track and image is in [CREDITS.md](CREDITS.md).
 
 ## Credits and license
 
-Lullaby118 (this build) starts from the open source engine **MOTH** by ahmedallam222 (https://github.com/ahmedallam222/moth-game), released under the MIT license. This repository is also MIT licensed. This project rebuilds its look, characters, mechanics, text and story on top of that engine. The original copyright notice is kept in [LICENSE](LICENSE). Full attributions, including the audio sample, are in [CREDITS.md](CREDITS.md).
+This game starts from the open source engine **MOTH** by ahmedallam222 (https://github.com/ahmedallam222/moth-game), released under the MIT license. This repository is also MIT licensed. This project rebuilds its look, characters, mechanics, text and story on top of that engine. The original copyright notice is kept in [LICENSE](LICENSE). Full attributions, including the audio, are in [CREDITS.md](CREDITS.md).

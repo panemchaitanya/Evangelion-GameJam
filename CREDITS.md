@@ -1,15 +1,54 @@
 # Credits - THE STARS THAT SANK US TO SLEEP (Team Evangelion, Infinium'26 GameJam)
 
+*The Stars That Sank Us to Sleep, Part 1: Lullaby.* Repository name: Lullaby118.
+
 ## Engine and base game
 - MOTH by ahmedallam222 (https://github.com/ahmedallam222/moth-game), MIT licence. This build starts from its TypeScript/canvas engine (physics, stalker AI, rope, water, level format) and modifies it: new palette and rendering, new character drawings, three-kid switching, heavy crates, rewritten English text and story.
 - Licence text: see LICENSE (MIT, original copyright retained).
 
-## Art
-- The game world, characters and effects are drawn in code (canvas paths and gradients).
-- The comic pages and panels in `public/panels/` (intro, chapter pages and outro) were made for this jam entry. No images, paintings or models from earlier builds are used.
+## Shipped media register
 
-## Audio
-- Sound effects and ambience are procedural WebAudio (engine from MOTH, extended for this build). Recorded audio is listed under "Audio (recorded)" and "Music" below. No recorded or generated voice is included.
+Everything below is a file in the shipped build. All recorded audio is CC0 as stated on its source page (OpenGameArt unless noted). The CC0 status comes from those pages and was not independently re-verified. No attribution is required by CC0; names are given for traceability. Sound effects and ambience not listed here are generated live in code (procedural Web Audio).
+
+### Comic art (public/panels/)
+Made for this jam entry by Team Evangelion. Files: intro1.jpg, intro1b.jpg, intro2.jpg, intro3.jpg, pageA.jpg, pageB.jpg, pageC.jpg, pageD.jpg, pageE.jpg, outro1.jpg, outro2.jpg, finF1.jpg, finF2.jpg, finF3.jpg.
+
+### Game world and characters
+Drawn in code (canvas paths and gradients). No images, paintings or models from earlier builds are used.
+
+### Music (public/music/)
+| File | Source |
+|---|---|
+| intro_pages_home_strings_piano.ogg | Tozan, "Strings and Piano RPG" |
+| page_A_toms_bed_grief_musicbox.ogg | yd, "4 Music Box Tracks" |
+| page_B_underbelly_tense_hush.ogg | TinyWorlds, "Narrow Corridors" |
+| page_C_grate_reveal_dread_swell.ogg | NekroRave, "Suspense" |
+| page_D_escape_plan_home_warm_cello.ogg | Rogudex, "I Want to go Home" |
+| ch01_crawl_dread.ogg | congusbongus, "Abandoned Passages" |
+| ch02_steam_house.ogg | epb9000, "Creepy Ambient Loop" |
+| ch03_boiler_deep.ogg | yd, "Factory Ambiance" |
+| ch04_dark_hall_stalker.ogg | congusbongus, "Lost in a Bad Place" |
+| ch05_red_corridor_urgency.ogg | gmason, "Tense Future Loop" |
+| outro_run_urgent.ogg | Spring Spring, "Urgent!" |
+| ward_glass_pod_lullaby.ogg | Zane Little Music, "Goodbye Lullaby - Day 4" |
+| finale_pages_grief_crescendo.ogg | Emma_MA, "Chasing despair" |
+
+Tracks were trimmed, normalised and re-encoded to Ogg Vorbis for the build.
+
+### Sound effects (public/sfx/)
+| File | Source |
+|---|---|
+| jump.ogg, land.ogg | Spring Spring, "Jay The Doggo - Sound Effects" |
+| step_wood_01.ogg, step_wood_02.ogg, step_wood_03.ogg, step_hard_01.ogg | rubberduck, "100 CC0 SFX #2" |
+| rope_attach_clank.ogg, rope_creak.ogg, warden_capture_clank.ogg | rubberduck, "100 CC0 metal and wood SFX" |
+| mechanism_clank.ogg | rubberduck, "100 CC0 SFX" |
+| rope_swing_whoosh.ogg | artisticdude, "Swishes Sound Pack" |
+| shard_pickup.ogg | Bobjt, "Gem collect SFX" |
+
+### Other audio (public/audio/)
+- warden_hum.mp3: "woman humming distant echo" by Pennywind, Freesound 816686, CC0. Trimmed to 20 s, low-passed and normalised.
+
+No recorded or generated voice is included.
 
 ## Story
 - Original text by the team and its writing assistants (Greywillow House bible and thought lines).
@@ -17,10 +56,3 @@
 
 ## Tools
 - Vite, React, TypeScript, Vitest, Playwright (testing).
-
-## Audio (recorded)
-- Warden lullaby hum (public/audio/warden_hum.mp3, trimmed to 20s, lowpassed and normalised): "woman humming distant echo" by Pennywind, Freesound 816686, CC0.
-
-## Music
-- Chapter, intro and finale tracks in `public/music/` and sound effects in `public/sfx/` come from a CC0 pack. Contributors credited by the pack: Tsorthan Grove, congusbongus, epb9000, yd, gmason, Emma_MA, rubberduck, bart, Spring Spring, Bobjt, Exewin and artisticdude. All are marked CC0 by the pack.
-- The CC0 status is as stated by the pack and was not independently re-verified. Playback falls back to the procedural ambience if a track cannot play.

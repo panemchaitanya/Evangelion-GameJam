@@ -53,6 +53,7 @@ export default function App() {
     return /[?&](debug|qa)=/.test(q) || STORY.panels.intro.length === 0 ? 'title' : 'intropanels';
   });
   const [panelStep, setPanelStep] = useState(0);
+  const [showCredits, setShowCredits] = useState(false);
   const [startLevel, setStartLevel] = useState(0);
   const [muted, setMuted] = useState(false);
   const [save, setSave] = useState(loadSave);
@@ -67,7 +68,8 @@ export default function App() {
   useEffect(() => {
     if (screen === 'title' || screen === 'intropanels') music.play('intro');
     else if (screen === 'outro' && (STORY.panels.outro[panelStep] as { page?: boolean } | undefined)?.page) music.play('finale');
-    else if (screen === 'endcards' || screen === 'ward' || screen === 'outro') music.play('outro');
+    else if (screen === 'ward') music.play('ward');
+    else if (screen === 'endcards' || screen === 'outro') music.play('outro');
     else if (screen === 'ending') music.play('finale');
     else if (screen === 'intro') music.stop();
   }, [screen, panelStep]);
@@ -231,6 +233,7 @@ export default function App() {
       <div className="title-screen panel-screen" onClick={adv} role="button" tabIndex={0}
         onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') adv(); if (e.code === 'Escape') done(); }}>
         <img key={p.src} className={p.page ? "panel-img panel-page" : "panel-img"} src={p.src} alt="" onError={adv} />
+                {p.cap ? <p key={p.src + 'c'} className="panel-cap">{p.cap}</p> : null}
                 <button className="panel-skip" onClick={e => { e.stopPropagation(); done(); }}>skip</button>
         <small className="intro-tap">tap to continue</small>
       </div>
@@ -299,6 +302,20 @@ export default function App() {
           {muted ? '○' : '●'}
         </button>
       </div>
+      {showCredits && (
+        <div className="credits-overlay" onClick={() => setShowCredits(false)} role="button" tabIndex={0}>
+          <div className="credits-body">
+            <h2>THE STARS THAT SANK US TO SLEEP · Team Evangelion</h2>
+            <p>Engine: MOTH by ahmedallam222 (MIT, github.com/ahmedallam222/moth-game)</p>
+            <p>Comic pages and art: made for this jam by Team Evangelion</p>
+            <h3>Music (CC0, OpenGameArt)</h3>
+            <p>Tozan - Strings and Piano RPG · yd - 4 Music Box Tracks, Factory Ambiance · TinyWorlds - Narrow Corridors · NekroRave - Suspense · Rogudex - I Want to go Home · Spring Spring - Urgent! · Emma_MA - Chasing despair · Zane Little Music - Goodbye Lullaby, Day 4 · congusbongus - Abandoned Passages, Lost in a Bad Place · epb9000 - Creepy Ambient Loop · gmason - Tense Future Loop</p>
+            <h3>Sound effects (CC0)</h3>
+            <p>rubberduck - 100 CC0 SFX, SFX #2, Metal and Wood SFX · Spring Spring - Jay The Doggo Sound Effects · Bobjt - Gem collect SFX · artisticdude - Swishes Sound Pack · Pennywind - woman humming distant echo (Freesound)</p>
+            <p className="credits-tap">tap to close</p>
+          </div>
+        </div>
+      )}
       <main className="title-inner">
         <div className="title-eyes"><span /><span /></div>
         <div className="title-moth" aria-hidden="true"><i className="tm-wing tm-l" /><i className="tm-wing tm-r" /><i className="tm-body" /></div>
@@ -311,6 +328,7 @@ export default function App() {
               {t.continue} — {t.chapter} {save.unlocked + 1}
             </button>
           )}
+          <button className="menu-btn" onClick={() => { audio.ui(); setShowCredits(true); }}>credits</button>
           {installPrompt && <button className="menu-btn install-btn" onClick={install}>{t.install}</button>}
         </div>
         <div className="chapter-select" aria-label={t.chapters}>

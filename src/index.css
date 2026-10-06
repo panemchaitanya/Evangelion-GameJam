@@ -712,11 +712,12 @@ button:focus-visible { outline: 1px solid rgba(255,255,255,.7); outline-offset: 
   .tm-l, .tm-r { animation: none; }
 }
 
-.kid-bar{position:absolute;top:44px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:6}
+.kid-bar{position:absolute;top:44px;left:0;right:0;transform:none;display:flex;justify-content:center;gap:8px;z-index:6;pointer-events:none}
+.kid-bar .kid-btn{pointer-events:auto}
 .kid-btn{background:rgba(20,24,40,.55);color:#e9d9b8;border:1px solid rgba(233,217,184,.28);border-radius:14px;padding:4px 11px;font:600 12px system-ui;letter-spacing:.04em;opacity:.7}
 .kid-btn b{color:#E8B94A;margin-right:4px}
 .kid-btn.on{opacity:1;background:rgba(55,108,112,.7);border-color:#E8B94A}
-.kid-note{position:absolute;top:84px;left:50%;transform:translateX(-50%);color:#f3e7c9;font:italic 15px Georgia,serif;text-shadow:0 1px 6px #000;z-index:6}
+.kid-note{position:absolute;top:84px;left:0;right:0;text-align:center;pointer-events:none;color:#f3e7c9;font:italic 15px Georgia,serif;text-shadow:0 1px 6px #000;z-index:6}
 
 .intro-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer}
 .intro-line{position:relative;z-index:2;max-width:80%;text-align:center;color:#f6e2a8;font:italic 600 clamp(22px,4.2vw,40px) Georgia,serif;text-shadow:0 2px 14px #000;animation:introIn 1.4s ease both}
@@ -880,3 +881,10 @@ button:focus-visible { outline-color: rgba(232,185,74,.8); }
 .panel-screen .intro-tap { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; margin: 0; }
 /* ink comic pages carry their own lettering: never crop or zoom them */
 .panel-screen .panel-img { object-fit: contain; background: #05080f; animation: panelIn 1s ease both; }
+
+.credits-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;box-sizing:border-box;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(5,8,15,.94);cursor:pointer;overflow:auto}
+.credits-body{max-width:min(760px,92vw);max-height:92vh;overflow:auto;padding:12px 18px;color:#e9d9b8;font:13px/1.45 system-ui;text-align:center}
+.credits-body h2{font:600 18px Georgia,serif;margin:0 0 8px;color:#E8B94A}
+.credits-body h3{font:600 13px system-ui;letter-spacing:.12em;text-transform:uppercase;margin:12px 0 4px;color:#E8B94A}
+.credits-body p{margin:4px 0;opacity:.9}
+.credits-tap{opacity:.5!important;margin-top:12px!important}

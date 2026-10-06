@@ -64,7 +64,9 @@ export default function GameScreen({
   const [stickX, setStickX] = useState(0);
   const [intro, setIntro] = useState<Intro | null>(null);
   const [paused, setPaused] = useState(false);
-  const [page, setPage] = useState<string | null>(null);
+  const [pages, setPages] = useState<string[]>([]);
+  const [pageStep, setPageStep] = useState(0);
+  const page = pages[pageStep] ? `panels/${pages[pageStep]}.jpg` : null;
   const pageIdx = useRef(0);
   const [showSettings, setShowSettings] = useState(false);
   const [deaths, setDeaths] = useState(0);
@@ -124,10 +126,10 @@ export default function GameScreen({
         onProgress(index);
         // wordless comic page before each chapter, once per page load; skipped for QA/debug URLs
         const src = STORY.panels.chapter[index];
-        if (src && !SHOWN_PAGES.has(index) && !/[?&](debug|qa)=/.test(location.search)) {
+        if (src && src.length && !SHOWN_PAGES.has(index) && !/[?&](debug|qa)=/.test(location.search)) {
           SHOWN_PAGES.add(index);
           pageIdx.current = index;
-          setTimeout(() => { gameRef.current?.setPaused(true); setPage(src); music.play('page' + 'ABCD'[index - 1]); }, 0);
+          setTimeout(() => { gameRef.current?.setPaused(true); setPages(src); setPageStep(0); music.play('page' + 'ABCD'[index - 1]); }, 0);
         }
       },
       onFinish,
@@ -304,7 +306,8 @@ export default function GameScreen({
     '--touch-opacity': settings.touchOpacity,
   } as React.CSSProperties;
 
-  const closePage = () => { setPage(null); music.play('ch' + (pageIdx.current + 1)); gameRef.current?.setPaused(false); setPaused(false); };
+  const nextPage = () => { if (pageStep + 1 < pages.length) setPageStep(pageStep + 1); else closePage(); };
+  const closePage = () => { setPages([]); setPageStep(0); music.play('ch' + (pageIdx.current + 1)); gameRef.current?.setPaused(false); setPaused(false); };
 
   return (
     <div className="game-shell">
@@ -312,8 +315,8 @@ export default function GameScreen({
 
       {page && (
         <div className="panel-screen chapter-page" style={{ position: 'absolute', inset: 0, zIndex: 60 }} role="button" tabIndex={0}
-          onClick={closePage} onKeyDown={e => { if (e.code === 'Escape' || e.code === 'Enter' || e.code === 'Space') closePage(); }}>
-          <img className="panel-img panel-page" src={page} alt="" onError={closePage} />
+          onClick={nextPage} onKeyDown={e => { if (e.code === 'Escape') closePage(); else if (e.code === 'Enter' || e.code === 'Space') nextPage(); }}>
+          <img key={page} className="panel-img panel-page" src={page} alt="" onError={nextPage} />
           <button className="panel-skip" onClick={e => { e.stopPropagation(); closePage(); }}>skip</button>
           <small className="intro-tap" style={{ zIndex: 4 }}>tap to continue</small>
         </div>
