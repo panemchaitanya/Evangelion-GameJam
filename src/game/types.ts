@@ -83,7 +83,7 @@ export interface LevelDef {
   shards?: ShardDef[];     // optional memories that persist across runs
   checkpoints: number[];   // x positions; crossing one saves respawn
   hints?: HintDef[];
-  wardens?: { x1: number; x2: number; y: number; reach?: number; speed?: number }[]; // the Matron: sees what MOVES in her lantern beam
+  wardens?: { x1: number; x2: number; y: number; reach?: number; speed?: number; mom?: boolean }[]; // the Matron: sees what MOVES in her lantern beam
   mothers?: { x1: number; x2: number; y: number; scale?: number }[];  // background warden patrols (scenery)
 }
 

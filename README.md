@@ -48,9 +48,10 @@ An on-screen stick moves the lead child. Two buttons jump and interact. Three sm
 ## Tech
 
 - TypeScript, React and Vite
-- Canvas 2D rendering, everything drawn in code, no image assets
-- Web Audio API for sound effects and the ambient score, all generated live
-- One recorded sample: the warden's hum (CC0, see CREDITS.md)
+- Canvas 2D rendering, with the game world drawn in code
+- Web Audio API for sound effects and ambience, generated live
+- Recorded audio (all CC0): the warden's hum and the chapter music, see Credits below
+- Comic panels for the intro, outro and chapter pages, made for this jam
 - Vitest for unit tests and Playwright scripts for end to end runs
 - Static build, hosted on Vercel
 
@@ -78,6 +79,17 @@ Team Evangelion
 ## Documents
 
 The project proposal is in this repo: [proposal.pdf](proposal.pdf).
+
+## Audio credits
+
+All recorded audio is CC0.
+
+- **Music** (chapter, intro and finale tracks): from a CC0 pack. Contributors credited by the pack: Tsorthan Grove, congusbongus, epb9000, yd, gmason, Emma_MA, rubberduck, bart, Spring Spring, Bobjt, Exewin and artisticdude.
+- **Warden hum**: "woman humming distant echo" by Pennywind, Freesound 816686, CC0.
+
+## Comic art
+
+The comic panels (intro, outro and the chapter pages) were made for this jam entry.
 
 ## Credits and license
 

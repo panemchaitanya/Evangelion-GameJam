@@ -47,7 +47,7 @@ class AudioEngine {
       this.depthFilter.connect(comp);
       comp.connect(this.ctx.destination);
       this.sfxBus = this.ctx.createGain(); this.sfxBus.gain.value = 1; this.sfxBus.connect(this.master);
-      this.ambBus = this.ctx.createGain(); this.ambBus.gain.value = 1; this.ambBus.connect(this.master);
+      this.ambBus = this.ctx.createGain(); this.ambBus.gain.value = this.ducked ? 0.22 : 1; this.ambBus.connect(this.master);
       // shared 2s noise buffer
       const len = this.ctx.sampleRate * 2;
       this.noiseBuf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
@@ -279,6 +279,10 @@ class AudioEngine {
     };
     setTimeout(swell, 9000);
   }
+
+  /** when a music track is playing, the procedural drone steps back (kept quietly for texture) */
+  duckAmbient(on: boolean) { if (this.ctx && this.ambBus) this.ambBus.gain.setTargetAtTime(on ? 0.22 : 1, this.ctx.currentTime, 0.6); this.ducked = on; }
+  private ducked = false;
 
   stopAmbient() {
     this.ambStop.forEach(f => f());

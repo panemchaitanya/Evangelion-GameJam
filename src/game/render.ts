@@ -24,7 +24,7 @@ export interface RenderState {
   level: LevelDef;
   camX: number; camY: number;
   player: RenderPlayer | null;
-  wardens?: { x: number; y: number; dir: number; walking: boolean; reach: number; exp: number }[];
+  wardens?: { x: number; y: number; dir: number; walking: boolean; reach: number; exp: number; mom?: boolean }[];
   followers?: { kid: number; x: number; y: number; vx: number; vy: number; facing: number; grounded: boolean; runPhase: number; w: number; h: number; dead?: boolean; deadT?: number }[];
   crates: Rect[];
   gates: { def: NonNullable<LevelDef['gates']>[number]; open: number }[];
@@ -1242,13 +1242,20 @@ export function render(s: RenderState) {
     const r = Math.min(1, w.exp / 0.55);
     const x0 = w.x + w.dir * 18, x1 = w.x + w.dir * w.reach;
     const grad = g.createLinearGradient(x0, 0, x1, 0);
-    grad.addColorStop(0, `rgba(255,${Math.round(214 - r * 120)},${Math.round(130 - r * 90)},${0.34 + r * 0.25})`);
-    grad.addColorStop(1, 'rgba(255,214,130,0)');
+    grad.addColorStop(0, w.mom ? `rgba(255,${Math.round(90 - r * 40)},${Math.round(80 - r * 40)},${0.42 + r * 0.25})` : `rgba(255,${Math.round(214 - r * 120)},${Math.round(130 - r * 90)},${0.34 + r * 0.25})`);
+    grad.addColorStop(1, w.mom ? 'rgba(255,90,80,0)' : 'rgba(255,214,130,0)');
     g.fillStyle = grad;
     g.beginPath(); g.moveTo(x0, w.y - 62); g.lineTo(x1, w.y - 120); g.lineTo(x1, w.y + 20); g.lineTo(x0, w.y - 40); g.closePath(); g.fill();
     g.save(); g.translate(w.x, w.y); g.scale(0.9, 0.9);
     drawMother(g, 0, 0, w.dir, w.walking, s.time, 0.95);
     g.restore();
+    if (w.mom) {
+      // red tint over her silhouette: a soft red glow at her body so she reads as Mom, not a warden
+      g.save(); g.globalCompositeOperation = 'lighter';
+      const rg = g.createRadialGradient(w.x, w.y - 62, 4, w.x, w.y - 62, 70);
+      rg.addColorStop(0, 'rgba(210,40,40,0.55)'); rg.addColorStop(1, 'rgba(210,40,40,0)');
+      g.fillStyle = rg; g.fillRect(w.x - 70, w.y - 135, 140, 150); g.restore();
+    }
   }
   for (const f of s.followers ?? []) {
     drawBoy(g, Object.assign({ pushing: false, dead: false, deadT: 0, sinkT: 0, onRope: false, ropeAngle: 0, swimming: false, breath01: 1, landT: 99, shadowY: 0 }, f) as RenderPlayer, s.time, false);

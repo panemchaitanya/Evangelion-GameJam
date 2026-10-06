@@ -159,7 +159,11 @@ check('ward reveal screen', Boolean(await page.$('.ward-screen')));
 check('ward: three sleepers, one counted star', (await page.$$('.ward-kid')).length === 3 && (await page.$$('.ward-star.counted')).length === 1);
 await sleep(7500);
 await page.screenshot({ path: '/tmp/e2e/ward.png' });
-await page.click('.ward-screen'); await sleep(900);
+await page.click('.ward-screen'); await sleep(700);
+let outroSeen = 0;
+while (await page.$('.panel-screen')) { outroSeen++; await page.click('.panel-screen'); await sleep(450); if (outroSeen > 6) break; }
+check('outro panels play (3)', outroSeen === 3, `saw ${outroSeen}`);
+await sleep(300);
 check('ending screen after final chapter', Boolean(await page.$('.ending-screen')));
 check('ending reads they never left', (await page.textContent('.ending-title')) === 'they never left');
 check('restart button reads dream again', (await page.textContent('.ending-inner .menu-btn')) === 'dream again');

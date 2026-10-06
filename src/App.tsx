@@ -2,11 +2,12 @@ import { STORY, activeEnding } from './story';
 import { useState, useCallback, useEffect } from 'react';
 import GameScreen from './components/GameScreen';
 import { audio } from './game/audio';
+import { music } from './game/music';
 import { LEVELS, TOTAL_SHARDS, loadSave, storeSave } from './game/levels';
 import { loadSettings, storeSettings } from './game/types';
 import type { GameSettings } from './game/types';
 
-type Screen = 'title' | 'intro' | 'game' | 'endcards' | 'ward' | 'ending';
+type Screen = 'title' | 'intro' | 'game' | 'endcards' | 'ward' | 'outro' | 'ending' | 'intropanels';
 const INTRO = STORY.intro;
 export type GameLanguage = 'ar' | 'en';
 
@@ -46,7 +47,12 @@ function loadLang(): GameLanguage {
 }
 
 export default function App() {
-  const [screen, setScreen] = useState<Screen>('title');
+  const [screen, setScreen] = useState<Screen>(() => {
+    // intro panels play once per page load; QA/debug URLs skip straight to the title
+    const q = typeof location !== 'undefined' ? location.search : '';
+    return /[?&](debug|qa)=/.test(q) || STORY.panels.intro.length === 0 ? 'title' : 'intropanels';
+  });
+  const [panelStep, setPanelStep] = useState(0);
   const [startLevel, setStartLevel] = useState(0);
   const [muted, setMuted] = useState(false);
   const [save, setSave] = useState(loadSave);
@@ -56,7 +62,19 @@ export default function App() {
   const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
   const t = COPY[lang];
 
-  useEffect(() => { audio.setMuted(muted); }, [muted]);
+  useEffect(() => { audio.setMuted(muted); music.setMuted(muted); }, [muted]);
+  // scene music: intro theme on the comic/title, finale theme from the end cards through the ending. (Chapters: engine.)
+  useEffect(() => {
+    if (screen === 'title' || screen === 'intropanels') music.play('intro');
+    else if (screen === 'endcards' || screen === 'ward' || screen === 'outro' || screen === 'ending') music.play('finale');
+    else if (screen === 'intro') music.stop();
+  }, [screen]);
+  // browsers block audio until the first tap: retry the current scene's track on the first pointer/key
+  useEffect(() => {
+    const kick = () => { audio.ensure(); if (screen === 'title' || screen === 'intropanels') music.play('intro'); };
+    window.addEventListener('pointerdown', kick, { once: true });
+    return () => window.removeEventListener('pointerdown', kick);
+  }, [screen]);
   useEffect(() => { storeSettings(settings); }, [settings]);
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -199,12 +217,30 @@ export default function App() {
     );
   }
 
+  if (screen === 'intropanels' || screen === 'outro') {
+    const intro = screen === 'intropanels';
+    const list = intro ? STORY.panels.intro : STORY.panels.outro;
+    const done = () => { setPanelStep(0); setScreen(intro ? 'title' : 'ending'); };
+    const adv = () => { audio.chime(panelStep % 3); if (panelStep + 1 >= list.length) done(); else setPanelStep(panelStep + 1); };
+    const p = list[panelStep] as { src: string; cap: string; page?: boolean } | undefined;
+    if (!p) { queueMicrotask(done); return null; }
+    return (
+      <div className="title-screen panel-screen" onClick={adv} role="button" tabIndex={0}
+        onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') adv(); if (e.code === 'Escape') done(); }}>
+        <img key={p.src} className={p.page ? "panel-img panel-page" : "panel-img"} src={p.src} alt="" onError={adv} />
+        {p.cap && <p key={'c' + panelStep} className="panel-cap">{p.cap}</p>}
+        <button className="panel-skip" onClick={e => { e.stopPropagation(); done(); }}>skip</button>
+        <small className="intro-tap">tap to continue</small>
+      </div>
+    );
+  }
+
   if (screen === 'ward') {
     const W = STORY.ward;
     const kidName = (k: string) => (STORY.kids as Record<string, string>)[k];
     return (
-      <div className="title-screen ward-screen" onClick={() => { audio.chime(1); setScreen('ending'); }} role="button" tabIndex={0}
-        onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') setScreen('ending'); }}>
+      <div className="title-screen ward-screen" onClick={() => { audio.chime(1); setPanelStep(0); setScreen('outro'); }} role="button" tabIndex={0}
+        onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') { setPanelStep(0); setScreen('outro'); } }}>
         <div className="ward-row">
           {W.beds.map((b, i) => {
             const counted = b.kid === STORY.counted.kid;

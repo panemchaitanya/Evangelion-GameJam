@@ -50,6 +50,8 @@ function vibrate(ms = 8) {
   if ('vibrate' in navigator) navigator.vibrate(ms);
 }
 
+const SHOWN_PAGES = new Set<number>();
+
 export default function GameScreen({
   startLevel, onFinish, onQuit, onProgress, onCollectShard, muted, onToggleMute,
   collectedShards, totalShards, lang, settings, onSettings,
@@ -61,6 +63,7 @@ export default function GameScreen({
   const [stickX, setStickX] = useState(0);
   const [intro, setIntro] = useState<Intro | null>(null);
   const [paused, setPaused] = useState(false);
+  const [page, setPage] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [deaths, setDeaths] = useState(0);
   const [chapterIndex, setChapterIndex] = useState(startLevel);
@@ -117,6 +120,12 @@ export default function GameScreen({
         setIntro({ chapter, name, key: index + Date.now(), index });
         setChapterIndex(index);
         onProgress(index);
+        // wordless comic page before each chapter, once per page load; skipped for QA/debug URLs
+        const src = STORY.panels.chapter[index];
+        if (src && !SHOWN_PAGES.has(index) && !/[?&](debug|qa)=/.test(location.search)) {
+          SHOWN_PAGES.add(index);
+          setTimeout(() => { gameRef.current?.setPaused(true); setPage(src); }, 0);
+        }
       },
       onFinish,
       onDeaths: setDeaths,
@@ -292,9 +301,20 @@ export default function GameScreen({
     '--touch-opacity': settings.touchOpacity,
   } as React.CSSProperties;
 
+  const closePage = () => { setPage(null); gameRef.current?.setPaused(false); setPaused(false); };
+
   return (
     <div className="game-shell">
       <canvas ref={canvasRef} className="game-canvas" aria-label="game world" />
+
+      {page && (
+        <div className="panel-screen chapter-page" style={{ position: 'absolute', inset: 0, zIndex: 60 }} role="button" tabIndex={0}
+          onClick={closePage} onKeyDown={e => { if (e.code === 'Escape' || e.code === 'Enter' || e.code === 'Space') closePage(); }}>
+          <img className="panel-img panel-page" src={page} alt="" onError={closePage} />
+          <button className="panel-skip" onClick={e => { e.stopPropagation(); closePage(); }}>skip</button>
+          <small className="intro-tap" style={{ zIndex: 4 }}>tap to continue</small>
+        </div>
+      )}
 
       {intro && (
         <div key={intro.key} className="intro-card" onAnimationEnd={() => setIntro(null)}>

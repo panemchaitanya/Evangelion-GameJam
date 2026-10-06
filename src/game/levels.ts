@@ -65,7 +65,7 @@ export const LEVELS: LevelDef[] = [
     height: 720,
     spawn: { x: 150, y: 500 },
     exit: { x: 5760, y: 480, w: 70, h: 80 },
-    wardens: [{ x1: 420, x2: 920, y: 560 }],
+    wardens: [{ x1: 420, x2: 920, y: 560 }, { x1: 3150, x2: 3300, y: 560, mom: true }],
     grounds: [
       { x: -100, y: 560, w: 1100, h: 160 },       // G1
       { x: 1150, y: 560, w: 850, h: 160 },        // G2 crusher corridor
@@ -153,7 +153,8 @@ export const LEVELS: LevelDef[] = [
       { id: 'deep-raft', x: 3020, y: 520 },
       { id: 'deep-wake', x: 5070, y: 370 },
     ],
-    mothers: [{ x1: 1500, x2: 2400, y: 548, scale: 0.7 }],
+    wardens: [{ x1: 2250, x2: 2400, y: 560, mom: true }],
+    mothers: [{ x1: 1500, x2: 2000, y: 548, scale: 0.7 }],
     checkpoints: [1300, 1980, 3260, 4350],
     hints: [
       { x: 420, y: 470, text: 'the water keeps what it catches' },
@@ -202,6 +203,7 @@ export const LEVELS: LevelDef[] = [
       { id: 'ruins-door', x: 3150, y: 500 },
       { id: 'ruins-sky', x: 4680, y: 295 },
     ],
+    wardens: [{ x1: 420, x2: 560, y: 560, mom: true }],
     mothers: [{ x1: 800, x2: 1700, y: 548, scale: 0.72 }, { x1: 3200, x2: 4200, y: 548, scale: 0.75 }],
     checkpoints: [1050, 1770, 2420, 3400, 4280, 5020, 5740],
     hints: [
@@ -278,6 +280,7 @@ export const LEVELS: LevelDef[] = [
       { id: 'pale-bridge', x: 2650, y: 460 },     // a jump's reach over the bridge
       { id: 'pale-depths', x: 5520, y: 645 },     // bottom of pool 2
     ],
+    wardens: [{ x1: 2050, x2: 2150, y: 560, mom: true }],
     mothers: [{ x1: 2200, x2: 3200, y: 548, scale: 0.72 }],
     checkpoints: [1120, 2250, 3050, 3450, 4720, 5280, 5700, 6640],
     hints: [

@@ -1,6 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 // MOTH — game engine: physics, entities, hazards, flow
 // ─────────────────────────────────────────────────────────────
+import { music } from './music';
 import {
   P, VIEW_W, VIEW_H, aabb, clamp,
 } from './types';
@@ -23,6 +24,7 @@ export interface GameEvents {
 }
 
 // the three kids: shared sleep-coat base, different bodies and gifts
+export const MOM_REACH = 300, MOM_CATCH = 2.8;
 export const KIDS = [
   { id: 'ness', name: 'Ness', w: 18, h: 38, jump: 1.06, run: 1.05, heavy: false, quiet: 1 },   // small: crawls through low gaps, jumps best
   { id: 'bram', name: 'Bram', w: 24, h: 50, jump: 0.95, run: 0.95, heavy: true, quiet: 1 },    // broad: pushes heavy crates
@@ -372,6 +374,7 @@ export class Game {
     this.modeT = 0;
     if (!attract) {
       audio.startAmbient(L.theme);
+      music.play('ch' + (i + 1));
       this.events.onIntro(L.chapter, L.name, i, LEVELS.length);
     }
   }
@@ -469,7 +472,9 @@ export class Game {
       let f = this.fol[k];
       if (!f || Math.abs(tx - f.x) > 500) { f = { x: tx, y: histY }; this.fol[k] = f; }
       f.x += clamp(tx - f.x, -600 * dt, 600 * dt);
-      let grounded = h.grounded || onRope;
+      // leader standing on solid ground right now: followers settle onto the ground under them, never hang on a stale airborne/rope frame
+      const leaderStanding = this.grounded && this.heldRope === null && Math.abs(this.vx) < 5;
+      let grounded = h.grounded || onRope || leaderStanding;
       if (riding && Math.abs(f.x + kd.w / 2 - (riding.x + riding.def.w / 2)) <= riding.def.w / 2) {
         f.y = riding.y - kd.h; grounded = true;
       } else if (grounded) {
@@ -621,7 +626,7 @@ export class Game {
           this.ghostRec = [];
         }
         if (this.levelIndex + 1 < LEVELS.length) this.loadLevel(this.levelIndex + 1);
-        else { this.mode = 'finished'; audio.stopAmbient(); this.events.onFinish(this.deaths, this.playTime); }
+        else { this.mode = 'finished'; audio.stopAmbient(); music.stop(); this.events.onFinish(this.deaths, this.playTime); }
       }
       return;
     }
@@ -1226,7 +1231,7 @@ export class Game {
       if (this.mode === 'playing') {
         const pr = this.playerRect();
         for (const w of this.wardens) {
-          const reach = w.def.reach ?? 250;
+          const reach = w.def.reach ?? (w.def.mom ? MOM_REACH : 250);
           if (aabb(pr, { x: w.dir > 0 ? w.x : w.x - reach, y: w.def.y - 120, w: reach, h: 140 })) { seen = true; break; }
         }
       }
@@ -1240,12 +1245,14 @@ export class Game {
         if (w.x >= w.def.x2) { w.x = w.def.x2; w.dir = -1; w.pause = 2.6; }
         if (w.x <= w.def.x1) { w.x = w.def.x1; w.dir = 1; w.pause = 2.6; }
       }
-      const reach = w.def.reach ?? 250;
+      const reach = w.def.reach ?? (w.def.mom ? MOM_REACH : 250);
       const beam: Rect = { x: w.dir > 0 ? w.x : w.x - reach, y: w.def.y - 120, w: reach, h: 140 };
-      const moving = Math.abs(this.vx) > 35 || !this.grounded;
+      // Mom: standing still does NOT protect. Any time in her light counts, and she needs longer to be sure (MOM_CATCH),
+      // sized so a straight run through (slowest kid, even leaving ahead of her) always clears the beam first.
+      const moving = w.def.mom || Math.abs(this.vx) > 35 || !this.grounded;
       if (this.mode === 'playing' && aabb(this.playerRect(), beam)) {
         w.exp = moving ? w.exp + dt : Math.max(0, w.exp - dt * 1.5);
-        if (w.exp > 0.55) { w.exp = 0; audio.setWardenHum(0); this.die('warden'); return; }
+        if (w.exp > (w.def.mom ? MOM_CATCH : 0.55)) { w.exp = 0; audio.setWardenHum(0); this.die('warden'); return; }
       } else w.exp = Math.max(0, w.exp - dt * 1.5);
     }
   }
@@ -1485,7 +1492,7 @@ export class Game {
         shadowY: this.groundTopAt(this.px + this.pw / 2),
         kid: this.ch, w: this.pw, h: this.ph,
       },
-      wardens: this.wardens.map(w => ({ x: w.x, y: w.def.y, dir: w.dir, walking: w.pause <= 0, reach: w.def.reach ?? 250, exp: w.exp })),
+      wardens: this.wardens.map(w => ({ x: w.x, y: w.def.y, dir: w.dir, walking: w.pause <= 0, reach: w.def.reach ?? (w.def.mom ? MOM_REACH : 250), exp: w.def.mom ? w.exp * (0.55 / MOM_CATCH) : w.exp, mom: !!w.def.mom })),
       followers: this.mode === 'playing' || this.mode === 'dying' ? this.folCache : [],
       ghost: ghostPose && !ghostPose.done ? ghostPose : null,
       lang: this.lang,
