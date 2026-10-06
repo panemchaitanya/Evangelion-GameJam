@@ -29,6 +29,10 @@ On an alien world, children are raised in an orphanage that feels like home. A h
 - **Music and sound.** Music and ambience from CC0 libraries, plus original synthesized cues, all credited in full.
 - **Runs in the browser.** No install.
 
+## Age rating
+
+PG-13. Dark themes, suspense and peril. Children in danger (depicted non-graphically). No gore, no explicit content.
+
 ## Controls
 
 | Action | Input |
