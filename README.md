@@ -38,7 +38,7 @@ On an alien world, children are raised in an orphanage that feels like home. A h
 <p>
 <img src="docs/art/intro1b.jpg" alt="Comic page" width="32%">
 <img src="docs/art/crumb2.jpg" alt="Comic page" width="32%">
-<img src="docs/art/tomvigil.jpg" alt="Comic page" width="32%">
+<img src="docs/art/pageD1.jpg" alt="Comic page" width="32%">
 </p>
 
 *The story is told in comic pages.*
