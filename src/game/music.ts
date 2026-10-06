@@ -8,7 +8,9 @@ const BASE = 'music/';
 // One slot per beat. `file` is the track; `fb` is the slot to fall back to if the file is missing/unplayable
 // (so a not-yet-delivered track just keeps the current behaviour). Swap files here when the final pack lands.
 const TRACKS: Record<string, { file: string; vol: number; fb?: string }> = {
-  intro: { file: 'intro_pages_home_strings_piano.ogg', vol: 0.5 },
+  intro: { file: 'lullaby_musicbox_intro_outro.ogg', vol: 0.5, fb: 'introOld' },
+  introOld: { file: 'intro_pages_home_strings_piano.ogg', vol: 0.5 },
+  lullaby: { file: 'lullaby_musicbox_intro_outro.ogg', vol: 0.5, fb: 'finale' },
   pageA: { file: 'page_A_toms_bed_grief_musicbox.ogg', vol: 0.45, fb: 'ch1' },
   pageB: { file: 'page_B_underbelly_tense_hush.ogg', vol: 0.5, fb: 'ch2' },
   pageC: { file: 'page_C_grate_reveal_dread_swell.ogg', vol: 0.5, fb: 'ch3' },

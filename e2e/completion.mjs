@@ -163,6 +163,7 @@ await page.click('.ward-screen'); await sleep(700);
 let outroSeen = 0;
 while (await page.$('.panel-screen')) { outroSeen++; await page.click('.panel-screen'); await sleep(450); if (outroSeen > 20) break; }
 if (await page.$('.teaser-screen')) { await sleep(500); await page.click('.teaser-screen'); await sleep(500); }
+if (await page.$('.vigilcover')) { await sleep(500); await page.click('.vigilcover'); await sleep(500); }
 check('outro panels play (3)', outroSeen >= 3, `saw ${outroSeen}`);
 await sleep(300);
 check('ending screen after final chapter', Boolean(await page.$('.ending-screen')));

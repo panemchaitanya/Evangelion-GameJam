@@ -1028,7 +1028,12 @@ export function render(s: RenderState) {
   for (const h of s.level.hazards) {
     if (h.kind !== 'spikes') continue;
     if (h.x + h.w < s.camX - 40 || h.x > s.camX + VIEW_W + 40) continue;
-    g.fillStyle = pal.dark;
+    { // warning glow so a pit reads as lethal
+      const gr = g.createLinearGradient(0, h.y - 90, 0, h.y + h.h);
+      gr.addColorStop(0, 'rgba(200,60,40,0)'); gr.addColorStop(1, 'rgba(210,70,45,0.38)');
+      g.fillStyle = gr; g.fillRect(h.x, h.y - 90, h.w, 90 + h.h);
+    }
+    g.fillStyle = '#9a2f26';
     const tw = 11;
     g.beginPath();
     for (let x = h.x; x < h.x + h.w; x += tw) {
@@ -1287,9 +1292,9 @@ export function render(s: RenderState) {
     for (const h of s.level.hints ?? []) {
       if (s.player.kid === 1 && h.text.startsWith('too heavy')) continue;
       const d = Math.abs(s.player.x - h.x);
-      const a = clamp(1 - d / 320, 0, 1) * 0.55;
+      const a = clamp(1 - d / 320, 0, 1) * 0.9;
       if (a <= 0.01) continue;
-      g.fillStyle = `rgba(215,215,215,${a})`;
+      g.fillStyle = `rgba(235,232,220,${a})`;
       const txt = ar && h.textAr ? h.textAr : h.text;
       g.fillText(ar ? txt : spaced(txt), h.x, h.y);
     }

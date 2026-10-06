@@ -24,7 +24,7 @@ export interface GameEvents {
 }
 
 // the three kids: shared sleep-coat base, different bodies and gifts
-export const MOM_REACH = 300, MOM_CATCH = 2.8;
+export const MOM_REACH = 300, MOM_CATCH = 0.12, WARD_NEAR = 40, NEAR_CATCH = 0.6, MOM_REAR = 100;
 export const KIDS = [
   { id: 'ness', name: 'Ness', w: 18, h: 38, jump: 1.06, run: 1.05, heavy: false, quiet: 1 },   // small: crawls through low gaps, jumps best
   { id: 'bram', name: 'Bram', w: 24, h: 50, jump: 0.95, run: 0.95, heavy: true, quiet: 1 },    // broad: pushes heavy crates
@@ -129,6 +129,7 @@ export class Game {
   private facing = 1; private grounded = false; private coyote = 0; private jbuf = 0;
   private runPhase = 0; private pushing = false; private inWater = false; private sinkT = 0;
   private deathT = 0;
+  private wardGrace = 0; // m30: 1.2s after a respawn the wardens' light/proximity cannot catch you (no spawn-into-beam)
   private ch = 0; private pw = 18; private ph = 38;
   private hist: Hist[] = [];
   heavyHintT = 0;
@@ -553,7 +554,7 @@ export class Game {
     } else { this.px = L.spawn.x; this.py = L.spawn.y; }
     this.vx = 0; this.vy = 0; this.sinkT = 0;
     this.px += (18 - this.pw) * 0; this.hist = []; this.hazPrev = null; this.fol = []; this.folDead = [-1, -1, -1]; this.folCache = [];
-    this.mode = 'playing'; this.modeT = 0;
+    this.mode = 'playing'; this.modeT = 0; this.wardGrace = 1.2;
     audio.shutdown();
   }
 
@@ -1243,18 +1244,28 @@ export class Game {
       if (w.pause > 0) w.pause -= dt;
       else {
         w.x += w.dir * (w.def.speed ?? 52) * dt;
-        if (w.x >= w.def.x2) { w.x = w.def.x2; w.dir = -1; w.pause = 2.6; }
-        if (w.x <= w.def.x1) { w.x = w.def.x1; w.dir = 1; w.pause = 2.6; }
+        if (w.x >= w.def.x2) { w.x = w.def.x2; w.dir = -1; w.pause = w.def.mom ? 4.5 : 2.6; }
+        if (w.x <= w.def.x1) { w.x = w.def.x1; w.dir = 1; w.pause = w.def.mom ? 4.5 : 2.6; }
       }
       const reach = w.def.reach ?? (w.def.mom ? MOM_REACH : 250);
       const beam: Rect = { x: w.dir > 0 ? w.x : w.x - reach, y: w.def.y - 120, w: reach, h: 140 };
       // Mom: standing still does NOT protect. Any time in her light counts, and she needs longer to be sure (MOM_CATCH),
       // sized so a straight run through (slowest kid, even leaving ahead of her) always clears the beam first.
+      // m30 owner tuning: light = near-instant death (BEAM 0.12s). While she is turning at a patrol end (w.pause > 0) the lantern
+      // is dipped: front beam and rear arc are off, so a sprint past during the turn is survivable. Proximity always bites.
       const moving = w.def.mom || Math.abs(this.vx) > 35 || !this.grounded;
-      if (this.mode === 'playing' && aabb(this.playerRect(), beam)) {
-        w.exp = moving ? w.exp + dt : Math.max(0, w.exp - dt * 1.5);
-        if (w.exp > (w.def.mom ? MOM_CATCH : 0.55)) { w.exp = 0; audio.setWardenHum(0); this.die('warden'); return; }
-      } else w.exp = Math.max(0, w.exp - dt * 1.5);
+      const pr = this.playerRect();
+      const turning = w.pause > 0;
+      const rear: Rect = { x: w.dir > 0 ? w.x - MOM_REAR : w.x, y: w.def.y - 120, w: MOM_REAR, h: 140 };
+      const near: Rect = { x: w.x - WARD_NEAR, y: w.def.y - 120, w: WARD_NEAR * 2, h: 140 };
+      this.wardGrace = Math.max(0, this.wardGrace - dt / Math.max(1, this.wardens.length));
+      const playing = this.mode === 'playing' && this.wardGrace <= 0;
+      const lit = playing && !turning && moving && (aabb(pr, beam) || (!!w.def.mom && aabb(pr, rear)));
+      const adj = playing && aabb(pr, near);
+      if (lit) w.exp += dt;
+      else if (adj) w.exp += dt * (MOM_CATCH / NEAR_CATCH);
+      else w.exp = Math.max(0, w.exp - dt * 1.5);
+      if (w.exp > MOM_CATCH) { w.exp = 0; audio.setWardenHum(0); this.die('warden'); return; }
     }
   }
 

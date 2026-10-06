@@ -158,12 +158,12 @@ class AudioEngine {
     const wind = ctx.createBufferSource(); wind.buffer = this.noiseBuf; wind.loop = true;
     const wf = ctx.createBiquadFilter(); wf.type = 'bandpass';
     wf.frequency.value = theme === 'machine' ? 300 : theme === 'pale' ? 700 : 480; wf.Q.value = 0.55;
-    const wg = ctx.createGain(); wg.gain.value = theme === 'deep' ? 0.035 : theme === 'pale' ? 0.045 : 0.06;
+    const wg = ctx.createGain(); wg.gain.value = theme === 'deep' ? 0.035 : theme === 'pale' ? 0.045 : theme === 'machine' ? 0.022 : 0.06;
     const wlfo = ctx.createOscillator(); wlfo.frequency.value = 0.07;
-    const wlg = ctx.createGain(); wlg.gain.value = theme === 'machine' ? 90 : 190;
+    const wlg = ctx.createGain(); wlg.gain.value = theme === 'machine' ? 30 : 190;
     wlfo.connect(wlg); wlg.connect(wf.frequency);
     const g2 = ctx.createOscillator(); g2.frequency.value = 0.043;
-    const g2g = ctx.createGain(); g2g.gain.value = 0.028;
+    const g2g = ctx.createGain(); g2g.gain.value = theme === 'machine' ? 0.008 : 0.028;
     g2.connect(g2g); g2g.connect(wg.gain);
     wind.connect(wf); wf.connect(wg); wg.connect(out);
     wind.start(); wlfo.start(); g2.start();
@@ -173,7 +173,7 @@ class AudioEngine {
       // electric hum
       const h = ctx.createOscillator(); h.type = 'sawtooth'; h.frequency.value = 120;
       const hf = ctx.createBiquadFilter(); hf.type = 'lowpass'; hf.frequency.value = 300;
-      const hg = ctx.createGain(); hg.gain.value = 0.014;
+      const hg = ctx.createGain(); hg.gain.value = 0.006;
       h.connect(hf); hf.connect(hg); hg.connect(out); h.start();
       this.ambStop.push(() => h.stop());
     }
@@ -206,10 +206,10 @@ class AudioEngine {
           // water drip
           this.tone('sine', 1500 + Math.random() * 700, 320, 0.28, 0.05, 0.002);
           if (Math.random() < 0.4) this.tone('sine', 1900, 400, 0.2, 0.03, 0.002, 0.18);
-        } else if (theme === 'machine' && r < 0.5) {
+        } else if (theme === 'machine' && r < 0.15) {
           // distant metallic clank
-          this.tone('square', 180 + Math.random() * 120, 90, 0.35, 0.028);
-          this.noise(0.1, 'highpass', 1800, 1, 0.03);
+          this.tone('sine', 180 + Math.random() * 120, 90, 0.35, 0.012);
+          this.noise(0.1, 'lowpass', 900, 1, 0.006);
         } else if (theme === 'pale' && r < 0.6) {
           // sparse chime, like dust settling
           const f = [1046, 1318, 1568, 2093][Math.floor(Math.random() * 4)];
@@ -238,10 +238,10 @@ class AudioEngine {
     const wet = ctx.createGain(); wet.gain.value = 0.9; verb.connect(wet); wet.connect(out);
     const bus = ctx.createGain(); bus.gain.value = 1; bus.connect(out); bus.connect(verb);
     // pad: stacked saws through a slowly breathing low-pass; the harmonics carry on a phone speaker
-    const padG = ctx.createGain(); padG.gain.value = theme === 'pale' ? 0.05 : 0.07; padG.connect(bus);
-    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 2; lp.frequency.value = 380; lp.connect(padG);
+    const padG = ctx.createGain(); padG.gain.value = theme === 'pale' ? 0.05 : theme === 'machine' ? 0.04 : 0.07; padG.connect(bus);
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = theme === 'machine' ? 0.8 : 2; lp.frequency.value = theme === 'machine' ? 300 : 380; lp.connect(padG);
     const fl = ctx.createOscillator(); fl.frequency.value = 0.035;
-    const flg = ctx.createGain(); flg.gain.value = 170; fl.connect(flg); flg.connect(lp.frequency); fl.start();
+    const flg = ctx.createGain(); flg.gain.value = theme === 'machine' ? 70 : 170; fl.connect(flg); flg.connect(lp.frequency); fl.start();
     const nodes: OscillatorNode[] = [fl];
     for (const [mult, det] of [[1, 0], [1.5, -2], [1.0595 * 2, 1]] as const) {
       const o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = root * mult; o.detune.value = det * 3;

@@ -11,7 +11,7 @@
 Everything below is a file in the shipped build. All recorded audio is CC0 as stated on its source page (OpenGameArt unless noted). The CC0 status comes from those pages and was not independently re-verified. No attribution is required by CC0; names are given for traceability. Sound effects and ambience not listed here are generated live in code (procedural Web Audio).
 
 ### Comic art (public/panels/)
-Made for this jam entry by Team Evangelion. Files: finF1.jpg, finF2.jpg, finF3.jpg, finF4.jpg, intro0.jpg, intro1.jpg, intro1b.jpg, intro2.jpg, intro3.jpg, outro1.jpg, outro2.jpg, outroO1.jpg, outroO2.jpg, outroO3.jpg, pageA.jpg, pageA0.jpg, pageA2.jpg, pageA3.jpg, pageA4.jpg, pageB.jpg, pageB0.jpg, pageB2.jpg, pageB3.jpg, pageB4.jpg, pageC.jpg, pageC0.jpg, pageC2.jpg, pageC3.jpg, pageC4.jpg, pageD.jpg, pageD1.jpg, pageD2.jpg, pageD3.jpg, pageD4.jpg, pageE.jpg.
+Made for this jam entry by Team Evangelion. Files: crumb1.jpg, crumb2.jpg, crumb3.jpg, finF1.jpg, finF2.jpg, finF3.jpg, finF4.jpg, intro0.jpg, intro1.jpg, intro1b.jpg, intro2.jpg, intro3.jpg, outro1.jpg, outro2.jpg, outroO1.jpg, outroO2.jpg, outroO3.jpg, pageA.jpg, pageA0.jpg, pageA2.jpg, pageA3.jpg, pageA4.jpg, pageB.jpg, pageB0.jpg, pageB2.jpg, pageB3.jpg, pageC.jpg, pageC0.jpg, pageC2.jpg, pageC3.jpg, pageC4.jpg, pageD.jpg, pageD1.jpg, pageD2.jpg, pageD3.jpg, pageD4.jpg, pageE.jpg, tomvigil.jpg, vigilcover.jpg.
 
 ### Game world and characters
 Drawn in code (canvas paths and gradients). No images, paintings or models from earlier builds are used.
@@ -30,6 +30,7 @@ Drawn in code (canvas paths and gradients). No images, paintings or models from 
 | ch04_dark_hall_stalker.ogg | congusbongus, "Lost in a Bad Place" |
 | ch05_red_corridor_urgency.ogg | gmason, "Tense Future Loop" |
 | outro_run_urgent.ogg | Spring Spring, "Urgent!" |
+| lullaby_musicbox_intro_outro.ogg | Original composition for this game, 2026 |
 | ward_glass_pod_lullaby.ogg | Zane Little Music, "Goodbye Lullaby - Day 4" |
 | finale_pages_grief_crescendo.ogg | Emma_MA, "Chasing despair" |
 

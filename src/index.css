@@ -896,3 +896,5 @@ button:focus-visible { outline-color: rgba(232,185,74,.8); }
 .teaser-l1{margin:0;color:#e9d9b8;font:italic clamp(18px,3.2vw,30px) Georgia,serif;letter-spacing:.14em;opacity:0;animation:teaserIn 2.4s ease .6s forwards}
 .teaser-l2{margin:0;color:#8fa6ad;font:clamp(13px,2.2vw,20px) Georgia,serif;letter-spacing:.42em;text-transform:uppercase;opacity:0;animation:teaserIn 2.8s ease 3.4s forwards}
 @keyframes teaserIn{to{opacity:1}}
+
+.title-screen{scrollbar-width:none}.title-screen::-webkit-scrollbar{display:none}

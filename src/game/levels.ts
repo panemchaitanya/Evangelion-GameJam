@@ -45,7 +45,7 @@ export const LEVELS: LevelDef[] = [
     checkpoints: [1050, 1820, 2500, 3150, 3750],
     hints: [
       { x: 260, y: 470, text: '← →  walk. quietly.' },
-      { x: 120, y: 330, text: 'three stars on the ceiling. one is painted, over bed 9' },
+      { x: 215, y: 330, text: 'three stars on the ceiling. one is painted, over bed 9' },
       { x: 640, y: 470, text: '↑  jump' },
       { x: 480, y: 440, text: 'Q  or 1 2 3 - change who leads' },
       { x: 1120, y: 460, text: `too heavy for me. ${STORY.kids.bram} could push it` },
@@ -261,6 +261,8 @@ export const LEVELS: LevelDef[] = [
     ],
     stalkers: [
       { x1: 3460, x2: 4640, y: 560, speed: 165, lungeSpeed: 430, senseRadius: 430 },
+      { x1: 3810, x2: 3980, y: 560, speed: 120, lungeSpeed: 340, senseRadius: 200 },   // m30: lurks between light 1 and 2
+      { x1: 4150, x2: 4320, y: 560, speed: 120, lungeSpeed: 340, senseRadius: 200 },   // m30: lurks between light 2 and 3
     ],
     waters: [
       { x: 4950, y: 560, w: 300, h: 160, swim: true },   // pool 1

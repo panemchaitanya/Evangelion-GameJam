@@ -7,7 +7,7 @@ import { LEVELS, TOTAL_SHARDS, loadSave, storeSave } from './game/levels';
 import { loadSettings, storeSettings } from './game/types';
 import type { GameSettings } from './game/types';
 
-type Screen = 'title' | 'intro' | 'game' | 'endcards' | 'ward' | 'outro' | 'ending' | 'intropanels' | 'teaser';
+type Screen = 'title' | 'intro' | 'game' | 'endcards' | 'ward' | 'outro' | 'ending' | 'intropanels' | 'teaser' | 'vigilcover';
 const INTRO = STORY.intro;
 export type GameLanguage = 'ar' | 'en';
 
@@ -28,13 +28,18 @@ const COPY = {
   en: {
     subtitle: 'a lullaby for the ones who stayed awake', begin: 'wake up', continue: 'continue', soundOn: 'sound: on',
     soundOff: 'sound: off', install: 'install on phone', chapter: 'chapter', chapters: 'five chapters',
-    controls: ['drag to move', 'jump', 'interact', 'pause'], note: 'headphones recommended · landscape mode · Team Evangelion · Infinium 26 GameJam',
+    controls: ['← → move', '↑ / space jump', 'E interact', 'Q / 1 2 3 change kid', 'P pause'], note: 'headphones recommended · landscape mode · Team Evangelion · Infinium 26 GameJam',
     endingTitle: 'they never left', endingSub: 'every escape is another dream.', time: 'time', deaths: 'deaths',
     best: 'best', memories: 'lullabies', again: 'dream again', rest: 'rest', language: 'ع',
     chapterNames: ['the dormitory garden', 'the boiler house', 'the flooded cellar', 'the old wing', 'the star gate'],
   },
 } as const;
 
+const KEYS_EN = (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(pointer: coarse)').matches) ? ['← → move', '↑ / space jump', 'E interact', 'Q / 1 2 3 change kid', 'P pause'] : null;
+function preloadPanel(src?: string) { if (src) { const i = new Image(); i.src = src; } }
+
+if (typeof window !== 'undefined') STORY.panels.intro.slice(0, 2).forEach(p => preloadPanel(p.src));
+preloadPanel('panels/vigilcover.jpg');
 function fmtTime(sec: number) {
   const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
   return `${m}:${s.toString().padStart(2, '0')}`;
@@ -70,7 +75,7 @@ export default function App() {
     else if (screen === 'outro' && (STORY.panels.outro[panelStep] as { page?: boolean } | undefined)?.page) music.play('finale');
     else if (screen === 'ward') music.play('ward');
     else if (screen === 'endcards' || screen === 'outro') music.play('outro');
-    else if (screen === 'ending' || screen === 'teaser') music.play('finale');
+    else if (screen === 'ending' || screen === 'teaser') music.play('lullaby');
     else if (screen === 'intro') music.stop();
   }, [screen, panelStep]);
   // browsers block audio until the first tap: retry the current scene's track on the first pointer/key
@@ -229,6 +234,7 @@ export default function App() {
     const adv = () => { audio.chime(panelStep % 3); if (panelStep + 1 >= list.length) done(); else setPanelStep(panelStep + 1); };
     const p = list[panelStep] as { src: string; cap: string; page?: boolean } | undefined;
     if (!p) { queueMicrotask(done); return null; }
+    preloadPanel(list[panelStep + 1]?.src); preloadPanel(list[panelStep + 2]?.src);
     return (
       <div className="title-screen panel-screen" onClick={adv} role="button" tabIndex={0}
         onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') adv(); if (e.code === 'Escape') done(); }}>
@@ -240,10 +246,21 @@ export default function App() {
     );
   }
 
+  if (screen === 'vigilcover') {
+    const go = () => setScreen('ending');
+    return (
+      <div className="title-screen panel-screen vigilcover" onClick={() => { audio.chime(1); go(); }} role="button" tabIndex={0}
+        onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter' || e.code === 'Escape') go(); }}>
+        <img className="panel-img panel-page" src="panels/vigilcover.jpg" alt="" onError={go} />
+        <small className="intro-tap">tap to continue</small>
+      </div>
+    );
+  }
+
   if (screen === 'teaser') {
     return (
-      <div className="title-screen intro-screen teaser-screen" onClick={() => { audio.chime(1); setScreen('ending'); }} role="button" tabIndex={0}
-        onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') setScreen('ending'); }}>
+      <div className="title-screen intro-screen teaser-screen" onClick={() => { audio.chime(1); setScreen('vigilcover'); }} role="button" tabIndex={0}
+        onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') setScreen('vigilcover'); }}>
         <p className="teaser-l1">End of Part One: Lullaby</p>
         <p className="teaser-l2">Part Two: Vigil</p>
         <small className="intro-tap">tap to continue</small>
@@ -356,7 +373,7 @@ export default function App() {
           })}
         </div>
         <div className="memory-progress"><i style={{ width: `${(save.shards.length / TOTAL_SHARDS) * 100}%` }} /><span>✦ {save.shards.length}/{TOTAL_SHARDS}</span></div>
-        <div className="controls-hint title-controls">{t.controls.map(item => <span key={item}>{item}</span>)}</div>
+        <div className="controls-hint title-controls">{(KEYS_EN && lang === 'en' ? KEYS_EN : t.controls).map(item => <span key={item}>{item}</span>)}</div>
         <p className="title-note">{t.note} · {t.chapters}</p>
       </main>
     </div>

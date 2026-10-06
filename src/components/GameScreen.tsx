@@ -68,6 +68,7 @@ export default function GameScreen({
   const [pageStep, setPageStep] = useState(0);
   const page = pages[pageStep] ? `panels/${pages[pageStep]}.jpg` : null;
   const pageIdx = useRef(0);
+  if (pages[pageStep + 1]) { const im = new Image(); im.src = `panels/${pages[pageStep + 1]}.jpg`; }
   const [showSettings, setShowSettings] = useState(false);
   const [deaths, setDeaths] = useState(0);
   const [chapterIndex, setChapterIndex] = useState(startLevel);
@@ -129,7 +130,7 @@ export default function GameScreen({
         if (src && src.length && !SHOWN_PAGES.has(index) && !/[?&](debug|qa)=/.test(location.search)) {
           SHOWN_PAGES.add(index);
           pageIdx.current = index;
-          setTimeout(() => { gameRef.current?.setPaused(true); setPages(src); setPageStep(0); music.play('page' + 'ABCD'[index - 1]); }, 0);
+          setTimeout(() => { gameRef.current?.setPaused(true); setPages(src); setPageStep(0); src.slice(0, 2).forEach((n: string) => { const im = new Image(); im.src = `panels/${n}.jpg`; }); music.play('page' + 'ABCD'[index - 1]); }, 0);
         }
       },
       onFinish,

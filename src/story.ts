@@ -20,13 +20,13 @@ export const STORY = {
     intro: ['intro0', 'intro1b', 'intro1', 'intro2', 'intro3'].map(n => ({ src: `panels/${n}.jpg`, cap: '' })),
     outro: [
       ...['outro1', 'outroO1', 'outroO2', 'outro2', 'outroO3'].map(n => ({ src: `panels/${n}.jpg`, cap: '' })),
-      ...['finF1', 'finF2', 'pageE', 'finF3', 'finF4'].map(n => ({ src: `panels/${n}.jpg`, cap: n === 'finF1' ? 'The first child she ever lost was her own.' : '', page: true })),
+      ...['finF1', 'finF2', 'pageE', 'finF3', 'finF4', 'tomvigil'].map(n => ({ src: `panels/${n}.jpg`, cap: n === 'finF1' ? 'The first child she ever lost was her own.' : '', page: true })),
     ],
     // comic pages shown before each chapter (keyed by chapter index), once per page load.
     chapter: {
-      1: ['pageA0', 'pageA', 'pageA2', 'pageA3', 'pageA4'],
-      2: ['pageB0', 'pageB', 'pageB2', 'pageB3', 'pageB4'],
-      3: ['pageC0', 'pageC', 'pageC2', 'pageC3', 'pageC4'],
+      1: ['pageA0', 'pageA', 'pageA2', 'pageA3', 'pageA4', 'crumb1'],
+      2: ['pageB0', 'pageB', 'pageB2', 'pageB3', 'crumb2'],
+      3: ['pageC0', 'pageC', 'pageC2', 'pageC3', 'pageC4', 'crumb3'],
       4: ['pageD1', 'pageD', 'pageD2', 'pageD3', 'pageD4'],
     } as Record<number, string[]>,
   },
