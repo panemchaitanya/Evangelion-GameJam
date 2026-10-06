@@ -1,5 +1,9 @@
+<p align="center"><img src="docs/art/vigilcover.jpg" alt="Vigil, Part Two - Team Evangelion" width="100%"></p>
+
 # The Stars That Sank Us To Sleep
 ### Part 1: Lullaby
+
+<p><img src="https://img.shields.io/badge/engine-MOTH_(MIT)-e0a458?labelColor=16233f&style=for-the-badge" alt="engine MOTH (MIT)"> <img src="https://img.shields.io/badge/jam-Infinium%2726-e0a458?labelColor=16233f&style=for-the-badge" alt="jam Infinium'26"> <img src="https://img.shields.io/badge/chapters-5-e0a458?labelColor=16233f&style=for-the-badge" alt="chapters 5"> <img src="https://img.shields.io/badge/plays_in-browser-e0a458?labelColor=16233f&style=for-the-badge" alt="plays in browser"></p>
 
 *In the house on the hill, the children are loved, numbered, and never, ever let go.*
 
@@ -28,6 +32,16 @@ On an alien world, children are raised in an orphanage that feels like home. A h
 - **Escapable catches.** Being seen starts a one-second wind-up. Break line of sight in time and you slip away.
 - **Music and sound.** Music and ambience from CC0 libraries, plus original synthesized cues, all credited in full.
 - **Runs in the browser.** No install.
+
+## From the pages
+
+<p>
+<img src="docs/art/intro1b.jpg" alt="Comic page" width="32%">
+<img src="docs/art/crumb2.jpg" alt="Comic page" width="32%">
+<img src="docs/art/tomvigil.jpg" alt="Comic page" width="32%">
+</p>
+
+*The story is told in comic pages.*
 
 ## Age rating
 
