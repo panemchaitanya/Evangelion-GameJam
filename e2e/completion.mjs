@@ -161,7 +161,7 @@ await sleep(7500);
 await page.screenshot({ path: '/tmp/e2e/ward.png' });
 await page.click('.ward-screen'); await sleep(700);
 let outroSeen = 0;
-while (await page.$('.panel-screen')) { outroSeen++; await page.click('.panel-screen'); await sleep(450); if (outroSeen > 6) break; }
+while (await page.$('.panel-screen')) { outroSeen++; await page.click('.panel-screen'); await sleep(450); if (outroSeen > 20) break; }
 if (await page.$('.teaser-screen')) { await sleep(500); await page.click('.teaser-screen'); await sleep(500); }
 check('outro panels play (3)', outroSeen >= 3, `saw ${outroSeen}`);
 await sleep(300);
