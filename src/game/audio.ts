@@ -480,19 +480,51 @@ class AudioEngine {
     return false;
   }
   /** warm the samples that matter on first touch so the first jump already has its sound */
-  preloadSamples() { for (const n of ['jump', 'land', 'step_wood_01', 'step_wood_02', 'step_wood_03', 'step_hard_01', 'rope_attach_clank', 'rope_swing_whoosh', 'rope_creak', 'mechanism_clank', 'warden_capture_clank', 'shard_pickup']) this.sample(n, 0); }
+  preloadSamples() { for (const n of ['jump_soft', 'land_soft', 'footstep_soft_01', 'footstep_soft_02', 'step_hard_01', 'checkpoint_reached_soft', 'caught_lullaby_resolves', 'panel_advance_whoosh', 'ui_click_soft', 'rope_attach_clank', 'rope_swing_whoosh', 'rope_creak', 'mechanism_clank', 'warden_capture_clank', 'star_lullaby_note']) this.sample(n, 0); }
+  private bedSrc: AudioBufferSourceNode | null = null; private bedGain: GainNode | null = null; private bedName = '';
+  private bedBufs = new Map<string, AudioBuffer | 'loading' | 'failed'>();
+  /** quiet looping chapter bed (gapless AudioBuffer loop), crossfaded; pass null to fade out */
+  bed(name: string | null, level = 0.22) {
+    if (!this.ctx) return;
+    if (name === this.bedName) return;
+    const ctx = this.ctx, t = ctx.currentTime;
+    if (this.bedGain && this.bedSrc) {
+      const og = this.bedGain, os = this.bedSrc;
+      og.gain.cancelScheduledValues(t); og.gain.setValueAtTime(og.gain.value, t); og.gain.linearRampToValueAtTime(0, t + 2);
+      setTimeout(() => { try { os.stop(); } catch { /* */ } }, 2200);
+      this.bedSrc = null; this.bedGain = null;
+    }
+    this.bedName = name ?? '';
+    if (!name) return;
+    const start = (buf: AudioBuffer) => {
+      if (this.bedName !== name) return;
+      const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+      const g = ctx.createGain(); g.gain.value = 0;
+      src.connect(g); g.connect(this.ambBus); src.start();
+      g.gain.linearRampToValueAtTime(level, ctx.currentTime + 3);
+      this.bedSrc = src; this.bedGain = g;
+    };
+    const have = this.bedBufs.get(name);
+    if (have && have !== 'loading' && have !== 'failed') { start(have); return; }
+    if (have) return;
+    this.bedBufs.set(name, 'loading');
+    fetch('ambience/' + name + '.ogg').then(r => (r.ok ? r.arrayBuffer() : Promise.reject(new Error('missing'))))
+      .then(b => new Promise<AudioBuffer>((res, rej) => ctx.decodeAudioData(b, res, rej)))
+      .then(buf => { this.bedBufs.set(name, buf); start(buf); })
+      .catch(() => { this.bedBufs.set(name, 'failed'); });
+  }
   wardenCapture() { if (!this.sample('warden_capture_clank', 0.55)) { /* procedural death follows */ } }
-  shardPickup() { return this.sample('shard_pickup', 0.5); }
+  shardPickup() { return this.sample('star_lullaby_note', 0.55); }
 
   // ── one-shots ──────────────────────────────────────────────
-  step() { if (this.sample(['step_wood_01', 'step_wood_02', 'step_wood_03'][this.stepN++ % 3], 0.35)) return; this.noise(0.075, 'bandpass', 420 + Math.random() * 320, 1.4, 0.11, 0.004); }
+  step() { if (this.sample(['footstep_soft_01', 'footstep_soft_02'][this.stepN++ % 2], 0.4)) return; this.noise(0.075, 'bandpass', 420 + Math.random() * 320, 1.4, 0.11, 0.004); }
   jump() {
-    if (this.sample('jump', 0.4)) return;
+    if (this.sample('jump_soft', 0.4)) return;
     this.noise(0.2, 'highpass', 500, 0.7, 0.045, 0.02, 1600);
     this.tone('sine', 190, 320, 0.14, 0.02, 0.01);
   }
   land(v = 1) {
-    if (this.sample('land', 0.45 * v)) return;
+    if (this.sample('land_soft', 0.45 * v)) return;
     this.noise(0.13, 'lowpass', 340, 0.6, 0.16 * v, 0.003);
     this.tone('sine', 105, 46, 0.13, 0.13 * v, 0.003);
   }
@@ -531,12 +563,14 @@ class AudioEngine {
     this.noise(0.7, 'lowpass', 400, 0.8, 0.2, 0.05);
   }
   death() {
+    if (this.sample('caught_lullaby_resolves', 0.5)) return;
     // soft, breathy exhale and a low settling tone - no pop
     this.noise(1.0, 'lowpass', 420, 0.5, 0.13, 0.14, 150);
     this.tone('sine', 118, 58, 0.9, 0.09, 0.09);
     this.tone('sine', 176, 87, 0.7, 0.03, 0.12, 0.03);
   }
   checkpoint() {
+    if (this.sample('checkpoint_reached_soft', 0.5)) return;
     this.tone('sine', 640, 640, 0.5, 0.045, 0.02);
     this.tone('sine', 960, 960, 0.7, 0.032, 0.05, 0.1);
   }
@@ -609,7 +643,8 @@ class AudioEngine {
     this.tone('sine', 68, 44, 0.11, 0.22, 0.004);
     this.tone('sine', 60, 40, 0.09, 0.15, 0.004, 0.14);
   }
-  ui() { this.noise(0.045, 'bandpass', 900, 2, 0.12, 0.002); }
+  whoosh() { return this.sample('panel_advance_whoosh', 0.45); }
+  ui() { if (this.sample('ui_click_soft', 0.4)) return; this.noise(0.045, 'bandpass', 900, 2, 0.12, 0.002); }
   /** the lullaby chime: soft bell, one note per kid (Ness high, Bram low, Ila between) */
   chime(i = 0) {
     const f = [659.25, 329.63, 493.88][i % 3];

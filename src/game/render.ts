@@ -1161,7 +1161,12 @@ export function render(s: RenderState) {
   }
 
   // saws
-  for (const sw of s.saws) drawSaw(g, sw.x, sw.y, sw.r, sw.angle, s.time);
+  for (const sw of s.saws) {
+    const gr = g.createRadialGradient(sw.x, sw.y, sw.r * 0.8, sw.x, sw.y, sw.r + 26);
+    gr.addColorStop(0, 'rgba(210,70,45,0.35)'); gr.addColorStop(1, 'rgba(210,70,45,0)');
+    g.fillStyle = gr; g.beginPath(); g.arc(sw.x, sw.y, sw.r + 26, 0, Math.PI * 2); g.fill();
+    drawSaw(g, sw.x, sw.y, sw.r, sw.angle, s.time);
+  }
   // saw rails (from defs, so they don't move)
   g.strokeStyle = 'rgba(10,10,10,0.8)'; g.lineWidth = 3;
   for (const h of s.level.hazards) {

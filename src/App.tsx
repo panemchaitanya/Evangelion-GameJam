@@ -1,4 +1,5 @@
 import { STORY, activeEnding } from './story';
+import { PanelImg } from './components/PanelImg';
 import { useState, useCallback, useEffect } from 'react';
 import GameScreen from './components/GameScreen';
 import { audio } from './game/audio';
@@ -231,14 +232,14 @@ export default function App() {
     const intro = screen === 'intropanels';
     const list = intro ? STORY.panels.intro : STORY.panels.outro;
     const done = () => { setPanelStep(0); setScreen(intro ? 'game' : 'teaser'); };
-    const adv = () => { audio.chime(panelStep % 3); if (panelStep + 1 >= list.length) done(); else setPanelStep(panelStep + 1); };
+    const adv = () => { audio.whoosh(); audio.chime(panelStep % 3); if (panelStep + 1 >= list.length) done(); else setPanelStep(panelStep + 1); };
     const p = list[panelStep] as { src: string; cap: string; page?: boolean } | undefined;
     if (!p) { queueMicrotask(done); return null; }
     preloadPanel(list[panelStep + 1]?.src); preloadPanel(list[panelStep + 2]?.src);
     return (
       <div className="title-screen panel-screen" onClick={adv} role="button" tabIndex={0}
         onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') adv(); if (e.code === 'Escape') done(); }}>
-        <img key={p.src} className={p.page ? "panel-img panel-page" : "panel-img"} src={p.src} alt="" onError={adv} />
+        <PanelImg className={p.page ? "panel-img panel-page" : "panel-img"} src={p.src} onError={adv} />
                 {p.cap ? <p key={p.src + 'c'} className="panel-cap">{p.cap}</p> : null}
                 <button className="panel-skip" onClick={e => { e.stopPropagation(); done(); }}>skip</button>
         <small className="intro-tap">tap to continue</small>
@@ -251,7 +252,7 @@ export default function App() {
     return (
       <div className="title-screen panel-screen vigilcover" onClick={() => { audio.chime(1); go(); }} role="button" tabIndex={0}
         onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter' || e.code === 'Escape') go(); }}>
-        <img className="panel-img panel-page" src="panels/vigilcover.jpg" alt="" onError={go} />
+        <PanelImg className="panel-img panel-page" src="panels/vigilcover.jpg" onError={go} />
         <small className="intro-tap">tap to continue</small>
       </div>
     );

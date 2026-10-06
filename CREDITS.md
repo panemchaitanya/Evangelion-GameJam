@@ -19,7 +19,6 @@ Drawn in code (canvas paths and gradients). No images, paintings or models from 
 ### Music (public/music/)
 | File | Source |
 |---|---|
-| intro_pages_home_strings_piano.ogg | Tozan, "Strings and Piano RPG" |
 | page_A_toms_bed_grief_musicbox.ogg | yd, "4 Music Box Tracks" |
 | page_B_underbelly_tense_hush.ogg | TinyWorlds, "Narrow Corridors" |
 | page_C_grate_reveal_dread_swell.ogg | NekroRave, "Suspense" |
@@ -36,15 +35,28 @@ Drawn in code (canvas paths and gradients). No images, paintings or models from 
 
 Tracks were trimmed, normalised and re-encoded to Ogg Vorbis for the build.
 
+### Ambience beds (public/ambience/)
+Short loops cut, filtered and crossfaded from the CC0 sources below.
+| File | Source |
+|---|---|
+| ch01_hushed_forest.ogg | congusbongus, "Abandoned Passages" |
+| ch02_house_machine.ogg | epb9000, "Creepy Ambient Loop" |
+| ch03_flooded_cellar.ogg | yd, "Factory Ambiance" |
+| ch04_old_wing.ogg | congusbongus, "A Lurking Evil" |
+| ch05_star_gate_tense.ogg | gmason, "Tense Future Loop" |
+
 ### Sound effects (public/sfx/)
 | File | Source |
 |---|---|
-| jump.ogg, land.ogg | Spring Spring, "Jay The Doggo - Sound Effects" |
-| step_wood_01.ogg, step_wood_02.ogg, step_wood_03.ogg, step_hard_01.ogg | rubberduck, "100 CC0 SFX #2" |
-| rope_attach_clank.ogg, rope_creak.ogg, warden_capture_clank.ogg | rubberduck, "100 CC0 metal and wood SFX" |
-| mechanism_clank.ogg | rubberduck, "100 CC0 SFX" |
+| jump_soft.ogg, land_soft.ogg, footstep_soft_01.ogg, footstep_soft_02.ogg | Spring Spring, "Jay The Doggo - Sound Effects" (softened and low-passed) |
+| panel_advance_whoosh.ogg | artisticdude, "Swishes Sound Pack" (softened) |
 | rope_swing_whoosh.ogg | artisticdude, "Swishes Sound Pack" |
-| shard_pickup.ogg | Bobjt, "Gem collect SFX" |
+| step_hard_01.ogg | rubberduck, "100 CC0 SFX #2" |
+| rope_attach_clank.ogg, rope_creak.ogg, warden_capture_clank.ogg | rubberduck, "100 CC0 metal and wood SFX" |
+| door_open_creaky.ogg, door_close.ogg | rubberduck, "100 CC0 metal and wood SFX" |
+| mechanism_clank.ogg, machine_start.ogg, metal_fall.ogg | rubberduck, "100 CC0 SFX" |
+| shard_break.ogg | rubberduck, "100 CC0 SFX" and "100 CC0 SFX #2" |
+| star_lullaby_note.ogg, caught_lullaby_resolves.ogg, checkpoint_reached_soft.ogg, ui_click_soft.ogg | Synthesized for this project (no sample source) |
 
 ### Other audio (public/audio/)
 - warden_hum.mp3: "woman humming distant echo" by Pennywind, Freesound 816686, CC0. Trimmed to 20 s, low-passed and normalised.

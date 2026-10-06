@@ -691,6 +691,8 @@ export class Game {
         audio.checkpoint();
         this.spawnGlow(shard.x, shard.y - 12);
         this.spawnGlow(shard.x, shard.y + 12);
+        for (let k = 0; k < 14; k++) { const a = (k / 14) * Math.PI * 2;
+          this.spawn({ x: shard.x, y: shard.y, vx: Math.cos(a) * 70, vy: Math.sin(a) * 70 - 10, life: 0, max: 0.6 + Math.random() * 0.3, size: 1.6 + Math.random() * 1.4, kind: 'mote' }); }
       }
     }
 

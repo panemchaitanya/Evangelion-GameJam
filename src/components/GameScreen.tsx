@@ -1,3 +1,4 @@
+import { PanelImg } from './PanelImg';
 import { STORY, KID_NAMES } from '../story';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Game } from '../game/engine';
@@ -125,6 +126,7 @@ export default function GameScreen({
         setIntro({ chapter, name, key: index + Date.now(), index });
         setChapterIndex(index);
         onProgress(index);
+        audio.bed(['ch01_hushed_forest', 'ch02_house_machine', 'ch03_flooded_cellar', 'ch04_old_wing', 'ch05_star_gate_tense'][index] ?? null);
         // wordless comic page before each chapter, once per page load; skipped for QA/debug URLs
         const src = STORY.panels.chapter[index];
         if (src && src.length && !SHOWN_PAGES.has(index) && !/[?&](debug|qa)=/.test(location.search)) {
@@ -195,6 +197,7 @@ export default function GameScreen({
       window.visualViewport?.removeEventListener('resize', fit);
       document.removeEventListener('visibilitychange', visibility);
       document.removeEventListener('fullscreenchange', fullscreenChange);
+      audio.bed(null);
       game.destroy();
       gameRef.current = null;
     };
@@ -307,7 +310,7 @@ export default function GameScreen({
     '--touch-opacity': settings.touchOpacity,
   } as React.CSSProperties;
 
-  const nextPage = () => { if (pageStep + 1 < pages.length) setPageStep(pageStep + 1); else closePage(); };
+  const nextPage = () => { audio.whoosh(); if (pageStep + 1 < pages.length) setPageStep(pageStep + 1); else closePage(); };
   const closePage = () => { setPages([]); setPageStep(0); music.play('ch' + (pageIdx.current + 1)); gameRef.current?.setPaused(false); setPaused(false); };
 
   return (
@@ -317,7 +320,7 @@ export default function GameScreen({
       {page && (
         <div className="panel-screen chapter-page" style={{ zIndex: 60 }} role="button" tabIndex={0}
           onClick={nextPage} onKeyDown={e => { if (e.code === 'Escape') closePage(); else if (e.code === 'Enter' || e.code === 'Space') nextPage(); }}>
-          <img key={page} className="panel-img panel-page" src={page} alt="" onError={nextPage} />
+          <PanelImg className="panel-img panel-page" src={page} onError={nextPage} />
           <button className="panel-skip" onClick={e => { e.stopPropagation(); closePage(); }}>skip</button>
           <small className="intro-tap" style={{ zIndex: 4 }}>tap to continue</small>
         </div>

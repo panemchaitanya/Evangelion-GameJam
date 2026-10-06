@@ -42,10 +42,10 @@ export const LEVELS: LevelDef[] = [
       { id: 'forest-gate', x: 3250, y: 500 },
     ],
     mothers: [{ x1: 700, x2: 1500, y: 548, scale: 0.7 }, { x1: 3100, x2: 3900, y: 548, scale: 0.75 }],
-    checkpoints: [1050, 1820, 2500, 3150, 3750],
+    checkpoints: [760, 1050, 1820, 2500, 3150, 3750],
     hints: [
       { x: 260, y: 470, text: '← →  walk. quietly.' },
-      { x: 215, y: 330, text: 'three stars on the ceiling. one is painted, over bed 9' },
+      { x: 340, y: 330, text: 'three stars on the ceiling. one is painted, over bed 9' },
       { x: 640, y: 470, text: '↑  jump' },
       { x: 480, y: 440, text: 'Q  or 1 2 3 - change who leads' },
       { x: 1120, y: 460, text: `too heavy for me. ${STORY.kids.bram} could push it` },
@@ -205,7 +205,7 @@ export const LEVELS: LevelDef[] = [
     ],
     wardens: [{ x1: 420, x2: 560, y: 560, mom: true }],
     mothers: [{ x1: 800, x2: 1700, y: 548, scale: 0.72 }, { x1: 3200, x2: 4200, y: 548, scale: 0.75 }],
-    checkpoints: [1050, 1770, 2420, 3400, 4280, 5020, 5740],
+    checkpoints: [700, 1050, 1770, 2420, 3400, 4280, 5020, 5400, 5740],
     hints: [
       { x: 460, y: 470, text: 'the old wing remembers every child' },
       { x: 1950, y: 400, text: `it is so quiet. like a dream` },
@@ -284,7 +284,7 @@ export const LEVELS: LevelDef[] = [
     ],
     wardens: [{ x1: 2050, x2: 2150, y: 560, mom: true }],
     mothers: [{ x1: 2200, x2: 3200, y: 548, scale: 0.72 }],
-    checkpoints: [1120, 2250, 3050, 3450, 4720, 5280, 5700, 6640],
+    checkpoints: [680, 1120, 1380, 2250, 3050, 3450, 4720, 5280, 5700, 6640],
     hints: [
       { x: 300, y: 470, text: 'I am not brave. I am just awake' },
       { x: 1100, y: 400, text: 'I have run this way before. I think I always run this way' },
