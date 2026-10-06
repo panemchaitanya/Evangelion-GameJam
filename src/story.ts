@@ -23,7 +23,7 @@ export const STORY = {
     ],
     outro: [
       { src: 'panels/outro1.jpg', cap: 'the gate was open. it was not freedom.' },
-      { src: 'panels/outro2.jpg', cap: 'the stars were looking back.' },
+      { src: 'panels/outro2.jpg', cap: '' },
       { src: 'panels/pageE.jpg', cap: '', page: true },
     ],
     // wordless comic page shown before each chapter (keyed by chapter index). Missing file = skipped silently.

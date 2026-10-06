@@ -1,6 +1,7 @@
 import { STORY, KID_NAMES } from '../story';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Game } from '../game/engine';
+import { music } from '../game/music';
 import { audio } from '../game/audio';
 import { VIEW_W, VIEW_H, clamp } from '../game/types';
 import type { GameSettings } from '../game/types';
@@ -64,6 +65,7 @@ export default function GameScreen({
   const [intro, setIntro] = useState<Intro | null>(null);
   const [paused, setPaused] = useState(false);
   const [page, setPage] = useState<string | null>(null);
+  const pageIdx = useRef(0);
   const [showSettings, setShowSettings] = useState(false);
   const [deaths, setDeaths] = useState(0);
   const [chapterIndex, setChapterIndex] = useState(startLevel);
@@ -124,7 +126,8 @@ export default function GameScreen({
         const src = STORY.panels.chapter[index];
         if (src && !SHOWN_PAGES.has(index) && !/[?&](debug|qa)=/.test(location.search)) {
           SHOWN_PAGES.add(index);
-          setTimeout(() => { gameRef.current?.setPaused(true); setPage(src); }, 0);
+          pageIdx.current = index;
+          setTimeout(() => { gameRef.current?.setPaused(true); setPage(src); music.play('page' + 'ABCD'[index - 1]); }, 0);
         }
       },
       onFinish,
@@ -301,7 +304,7 @@ export default function GameScreen({
     '--touch-opacity': settings.touchOpacity,
   } as React.CSSProperties;
 
-  const closePage = () => { setPage(null); gameRef.current?.setPaused(false); setPaused(false); };
+  const closePage = () => { setPage(null); music.play('ch' + (pageIdx.current + 1)); gameRef.current?.setPaused(false); setPaused(false); };
 
   return (
     <div className="game-shell">

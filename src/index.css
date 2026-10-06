@@ -878,3 +878,5 @@ button:focus-visible { outline-color: rgba(232,185,74,.8); }
 .panel-screen::before { display: none !important; }
 .panel-screen .panel-cap { bottom: clamp(34px, 12vh, 80px); }
 .panel-screen .intro-tap { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; margin: 0; }
+/* ink comic pages carry their own lettering: never crop or zoom them */
+.panel-screen .panel-img { object-fit: contain; background: #05080f; animation: panelIn 1s ease both; }

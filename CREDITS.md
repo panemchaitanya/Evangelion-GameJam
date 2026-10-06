@@ -21,7 +21,7 @@
 - Warden lullaby hum (public/audio/warden_hum.mp3, trimmed to 20s, lowpassed and normalised): "woman humming distant echo" by Pennywind, Freesound 816686, CC0.
 
 ## Music
-- Chapter, intro and finale tracks in `public/music/` come from a CC0 pack. Contributors credited by the pack: Tsorthan Grove, congusbongus, epb9000, yd, gmason, Emma_MA, rubberduck, bart, Spring Spring, Bobjt, Exewin and artisticdude. All are marked CC0 by the pack.
+- Chapter, intro and finale tracks in `public/music/` and sound effects in `public/sfx/` come from a CC0 pack. Contributors credited by the pack: Tsorthan Grove, congusbongus, epb9000, yd, gmason, Emma_MA, rubberduck, bart, Spring Spring, Bobjt, Exewin and artisticdude. All are marked CC0 by the pack.
 - The CC0 status is as stated by the pack and was not independently re-verified. Playback falls back to the procedural ambience if a track cannot play.
 
 ## Comic art

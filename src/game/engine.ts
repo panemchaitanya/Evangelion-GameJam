@@ -566,7 +566,7 @@ export class Game {
     if (cause === 'drown') audio.drown();
     else if (cause === 'saw') audio.sawHit();
     else if (cause === 'stalker') audio.stalkerBite();
-    else audio.death();
+    else { if (cause === 'warden') audio.wardenCapture(); audio.death(); }
     if (cause === 'crush' || cause === 'stalker') { this.shakeFn(0.35, 9); }
     // a few slow motes drift up and away (drowning keeps its bubbles)
     const n = cause === 'drown' ? 16 : 9;
@@ -626,7 +626,7 @@ export class Game {
           this.ghostRec = [];
         }
         if (this.levelIndex + 1 < LEVELS.length) this.loadLevel(this.levelIndex + 1);
-        else { this.mode = 'finished'; audio.stopAmbient(); music.stop(); this.events.onFinish(this.deaths, this.playTime); }
+        else { this.mode = 'finished'; audio.stopAmbient(); this.events.onFinish(this.deaths, this.playTime); }
       }
       return;
     }
@@ -685,6 +685,7 @@ export class Game {
       const dy = this.py + this.ph / 2 - shard.y;
       if (Math.hypot(dx, dy) < 46) {
         this.collectedShards.add(shard.id);
+        audio.shardPickup();
         this.events.onShard(shard.id, this.collectedShards.size);
         audio.checkpoint();
         this.spawnGlow(shard.x, shard.y - 12);

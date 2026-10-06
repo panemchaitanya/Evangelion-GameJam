@@ -60,6 +60,7 @@ class AudioEngine {
       }
       if (this.currentTheme) { const t = this.currentTheme; this.currentTheme = null; this.startAmbient(t); }
       this.loadHum();
+      this.preloadSamples();
     }
     if (this.ctx.state === 'suspended') void this.ctx.resume().catch(() => { /* */ });
   }
@@ -455,17 +456,48 @@ class AudioEngine {
     }
   }
 
+  // ── sample layer (CC0 SFX pack). Fail-soft: not loaded / failed => the procedural sound plays instead ──
+  private samples = new Map<string, AudioBuffer | 'loading' | 'failed'>();
+  private stepN = 0;
+  /** play a pack sample through the sfx bus; returns false if it isn't ready (caller then plays the procedural version) */
+  private sample(name: string, gain = 0.6, rate = 1): boolean {
+    if (!this.ctx) return false;
+    const have = this.samples.get(name);
+    if (have && have !== 'loading' && have !== 'failed') {
+      const src = this.ctx.createBufferSource(); src.buffer = have; src.playbackRate.value = rate * (0.97 + Math.random() * 0.06);
+      const g = this.ctx.createGain(); g.gain.value = gain;
+      src.connect(g); g.connect(this.sfxBus); src.start();
+      return true;
+    }
+    if (!have) {
+      this.samples.set(name, 'loading');
+      const ctx = this.ctx;
+      fetch('sfx/' + name + '.ogg').then(r => (r.ok ? r.arrayBuffer() : Promise.reject(new Error('missing'))))
+        .then(b => new Promise<AudioBuffer>((res, rej) => ctx.decodeAudioData(b, res, rej)))
+        .then(buf => { this.samples.set(name, buf); })
+        .catch(() => { this.samples.set(name, 'failed'); });
+    }
+    return false;
+  }
+  /** warm the samples that matter on first touch so the first jump already has its sound */
+  preloadSamples() { for (const n of ['jump', 'land', 'step_wood_01', 'step_wood_02', 'step_wood_03', 'step_hard_01', 'rope_attach_clank', 'rope_swing_whoosh', 'rope_creak', 'mechanism_clank', 'warden_capture_clank', 'shard_pickup']) this.sample(n, 0); }
+  wardenCapture() { if (!this.sample('warden_capture_clank', 0.55)) { /* procedural death follows */ } }
+  shardPickup() { return this.sample('shard_pickup', 0.5); }
+
   // ── one-shots ──────────────────────────────────────────────
-  step() { this.noise(0.075, 'bandpass', 420 + Math.random() * 320, 1.4, 0.11, 0.004); }
+  step() { if (this.sample(['step_wood_01', 'step_wood_02', 'step_wood_03'][this.stepN++ % 3], 0.35)) return; this.noise(0.075, 'bandpass', 420 + Math.random() * 320, 1.4, 0.11, 0.004); }
   jump() {
+    if (this.sample('jump', 0.4)) return;
     this.noise(0.2, 'highpass', 500, 0.7, 0.045, 0.02, 1600);
     this.tone('sine', 190, 320, 0.14, 0.02, 0.01);
   }
   land(v = 1) {
+    if (this.sample('land', 0.45 * v)) return;
     this.noise(0.13, 'lowpass', 340, 0.6, 0.16 * v, 0.003);
     this.tone('sine', 105, 46, 0.13, 0.13 * v, 0.003);
   }
   lever() {
+    if (this.sample('mechanism_clank', 0.5)) return;
     this.noise(0.05, 'highpass', 1400, 1, 0.2, 0.002);
     this.tone('square', 230, 110, 0.16, 0.1, 0.002, 0.02);
     this.tone('triangle', 460, 430, 0.35, 0.05, 0.004, 0.06);
@@ -525,6 +557,7 @@ class AudioEngine {
 
   // ── chapter V mechanics ────────────────────────────────────
   ropeGrab() {
+    if (this.sample('rope_attach_clank', 0.5)) return;
     this.noise(0.09, 'lowpass', 700, 1, 0.2, 0.004);
     this.tone('triangle', 170, 120, 0.12, 0.12, 0.004);
   }
@@ -533,11 +566,13 @@ class AudioEngine {
     const now = performance.now();
     if (now - this.lastCreak < 260) return;
     this.lastCreak = now;
+    if (this.sample('rope_creak', 0.12 + intensity * 0.2)) return;
     const g = 0.05 + intensity * 0.06;
     this.noise(0.16, 'bandpass', 260 + Math.random() * 120, 4, g, 0.02);
     this.tone('triangle', 90 + Math.random() * 40, 70, 0.14, g * 0.7, 0.02);
   }
   ropeRelease() {
+    if (this.sample('rope_swing_whoosh', 0.45)) return;
     this.noise(0.22, 'highpass', 400, 0.8, 0.06, 0.01, 1900);
   }
   crumbleCrack() {

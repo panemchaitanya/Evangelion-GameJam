@@ -66,9 +66,11 @@ export default function App() {
   // scene music: intro theme on the comic/title, finale theme from the end cards through the ending. (Chapters: engine.)
   useEffect(() => {
     if (screen === 'title' || screen === 'intropanels') music.play('intro');
-    else if (screen === 'endcards' || screen === 'ward' || screen === 'outro' || screen === 'ending') music.play('finale');
+    else if (screen === 'outro' && (STORY.panels.outro[panelStep] as { page?: boolean } | undefined)?.page) music.play('finale');
+    else if (screen === 'endcards' || screen === 'ward' || screen === 'outro') music.play('outro');
+    else if (screen === 'ending') music.play('finale');
     else if (screen === 'intro') music.stop();
-  }, [screen]);
+  }, [screen, panelStep]);
   // browsers block audio until the first tap: retry the current scene's track on the first pointer/key
   useEffect(() => {
     const kick = () => { audio.ensure(); if (screen === 'title' || screen === 'intropanels') music.play('intro'); };
@@ -98,7 +100,8 @@ export default function App() {
     setStartLevel(level);
     let seen = true;
     try { seen = localStorage.getItem('lull-intro-seen') === '1'; } catch { /* */ }
-    if (level === 0 && !seen) { setIntroStep(0); setScreen('intro'); audio.chime(1); return; }
+    // the comic intro pages replace the old gold story-text cards (owner: no text captions); `seen` kept for compatibility
+    void seen;
     setScreen('game');
   }, []);
   const nextIntro = useCallback(() => {
@@ -228,8 +231,7 @@ export default function App() {
       <div className="title-screen panel-screen" onClick={adv} role="button" tabIndex={0}
         onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') adv(); if (e.code === 'Escape') done(); }}>
         <img key={p.src} className={p.page ? "panel-img panel-page" : "panel-img"} src={p.src} alt="" onError={adv} />
-        {p.cap && <p key={'c' + panelStep} className="panel-cap">{p.cap}</p>}
-        <button className="panel-skip" onClick={e => { e.stopPropagation(); done(); }}>skip</button>
+                <button className="panel-skip" onClick={e => { e.stopPropagation(); done(); }}>skip</button>
         <small className="intro-tap">tap to continue</small>
       </div>
     );

@@ -50,7 +50,7 @@ An on-screen stick moves the lead child. Two buttons jump and interact. Three sm
 - TypeScript, React and Vite
 - Canvas 2D rendering, with the game world drawn in code
 - Web Audio API for sound effects and ambience, generated live
-- Recorded audio (all CC0): the warden's hum and the chapter music, see Credits below
+- Recorded audio (all CC0): the warden's hum, the chapter music and the sound effects, see Credits below
 - Comic panels for the intro, outro and chapter pages, made for this jam
 - Vitest for unit tests and Playwright scripts for end to end runs
 - Static build, hosted on Vercel
@@ -84,7 +84,7 @@ The project proposal is in this repo: [proposal.pdf](proposal.pdf).
 
 All recorded audio is CC0.
 
-- **Music** (chapter, intro and finale tracks): from a CC0 pack. Contributors credited by the pack: Tsorthan Grove, congusbongus, epb9000, yd, gmason, Emma_MA, rubberduck, bart, Spring Spring, Bobjt, Exewin and artisticdude.
+- **Music and sound effects** (chapter, intro and finale tracks, plus the SFX in public/sfx): from a CC0 pack. Contributors credited by the pack: Tsorthan Grove, congusbongus, epb9000, yd, gmason, Emma_MA, rubberduck, bart, Spring Spring, Bobjt, Exewin and artisticdude.
 - **Warden hum**: "woman humming distant echo" by Pennywind, Freesound 816686, CC0.
 
 ## Comic art
