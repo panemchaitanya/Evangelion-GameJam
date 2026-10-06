@@ -50,7 +50,7 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>(() => {
     // intro panels play once per page load; QA/debug URLs skip straight to the title
     const q = typeof location !== 'undefined' ? location.search : '';
-    return /[?&](debug|qa)=/.test(q) || STORY.panels.intro.length === 0 ? 'title' : 'intropanels';
+    void q; return 'title';
   });
   const [panelStep, setPanelStep] = useState(0);
   const [showCredits, setShowCredits] = useState(false);
@@ -104,7 +104,7 @@ export default function App() {
     try { seen = localStorage.getItem('lull-intro-seen') === '1'; } catch { /* */ }
     // the comic intro pages replace the old gold story-text cards (owner: no text captions); `seen` kept for compatibility
     void seen;
-    setScreen('game');
+    setScreen(level === 0 && STORY.panels.intro.length > 0 && !/[?&](debug|qa)=/.test(location.search) ? 'intropanels' : 'game');
   }, []);
   const nextIntro = useCallback(() => {
     audio.chime(introStep % 3);
@@ -225,7 +225,7 @@ export default function App() {
   if (screen === 'intropanels' || screen === 'outro') {
     const intro = screen === 'intropanels';
     const list = intro ? STORY.panels.intro : STORY.panels.outro;
-    const done = () => { setPanelStep(0); setScreen(intro ? 'title' : 'teaser'); };
+    const done = () => { setPanelStep(0); setScreen(intro ? 'game' : 'teaser'); };
     const adv = () => { audio.chime(panelStep % 3); if (panelStep + 1 >= list.length) done(); else setPanelStep(panelStep + 1); };
     const p = list[panelStep] as { src: string; cap: string; page?: boolean } | undefined;
     if (!p) { queueMicrotask(done); return null; }
