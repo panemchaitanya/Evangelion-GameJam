@@ -1,93 +1,60 @@
-# THE STARS THAT SANK US TO SLEEP
+# The Stars That Sank Us To Sleep
+### Part 1: Lullaby
 
-*A lullaby for the ones who stayed awake.*
+*In the house on the hill, the children are loved, numbered, and never, ever let go.*
 
-Part 1: Lullaby
+A stealth-platformer about a child who learns what the house is really for, and runs.
 
-**Play it now: https://lullaby118-git-indy-evangelion.vercel.app/** (runs in any modern browser, phone or desktop, no install)
+By Team Evangelion. Made for the Infinium'26 Game Jam (The Gaming Club, IIIT-H).
 
-The game is a short, quiet escape platformer. Three children wake in the night inside Greywillow House, a place that keeps forty lamps burning. They have to get out together. Each of them can do something the others cannot, and the House is listening.
+---
 
-Built for the TGC Game Jam 2026 (Infinium'26, IIIT-H) by **Team Evangelion**.
+## Overview
+
+The orphanage is warm. The beds are clean, the table is full, and every child is promised a family after their twelfth year. Nobody asks where the ones who left have gone.
+
+One night the truth surfaces, and the only thing left to do is leave. Alone, small and unarmed, you slip past sleeping dorm-mates, through wardens' lanterns and out toward the forest. Nothing here can be fought. It can only be avoided, outlasted and, for as long as the song holds, outrun.
 
 ## Premise
 
-Greywillow House keeps forty lamps burning, and they burn on the sleep of children. Tonight three of them woke up: Ness, Bram and Ila. Follow the stars. Find the way out.
+On an alien world, children are raised in an orphanage that feels like home. A handful of wardens, led by Mom, watch over them. Part 1 follows one child through the night of the escape.
 
-Something walks the halls and keeps watch over them. You do not fight it. You hide, you wait, you move when it looks away, and you bring all three children through. There is more going on in this House than the first room lets on.
+## Features
 
-## How to play
+- **Five chapters.** A single night, told in sequence from the dormitory to the forest edge.
+- **Comic-page storytelling.** Story beats land as illustrated pages, not text dumps. Few cutscenes, each one chosen.
+- **A lullaby you collect.** Every star you gather is a note of the song. Gather enough and the melody resolves.
+- **Light-cone stealth.** Wardens and Mom patrol with lanterns. Their beams are the rules: stay out of the light, read the turn, move in the dark.
+- **Escapable catches.** Being seen starts a one-second wind-up. Break line of sight in time and you slip away.
+- **Original score and sound design.** Original music, ambience beds and synthesized cues, with third-party assets credited in full.
+- **Runs in the browser.** No install.
 
-You lead one child at a time. The other two follow. Switch who leads to get past what the current child cannot.
+## Controls
 
-- **Ness** is small and quick and fits through low gaps.
-- **Bram** is strong enough to move the heavy crates.
-- **Ila** walks the quietest, so she makes the least noise near what is watching.
+| Action | Input |
+|---|---|
+| Move | Left / Right arrows |
+| Jump | Up / Space |
+| Interact | E |
+| Change kid | Q / 1 / 2 / 3 |
+| Pause | P |
 
-### Keyboard
+## Play
 
-| Action | Keys |
-| --- | --- |
-| Move | A / D or Left / Right |
-| Jump | Space, W or Up |
-| Interact | E, S or Down |
-| Switch who leads | Q or Tab, or 1 / 2 / 3 for a specific child |
-| Pause | Esc or P |
-| Restart from checkpoint | R |
+- itch.io: https://teamevangelion.itch.io/lullaby
 
-### Touch
+## Technology
 
-An on-screen stick moves the lead child. Two buttons jump and interact. Three small buttons across the top choose who leads. Rotate to landscape for the best fit.
+Built on the open-source Moth engine (MIT). Browser-native, TypeScript, bundled for the web.
 
-### Tips
+## Credits
 
-- Stand still when the lantern beam is on you. The warden only reacts to movement.
-- Plates stay pressed once they have been held. Think before you let go of a crate.
-- Headphones help. The House has a sound, and it matters.
+Third-party music, sound effects and ambience, with sources and licenses, are listed in [CREDITS.md](CREDITS.md).
 
-## Tech
+## License
 
-- TypeScript, React and Vite
-- Canvas 2D rendering, with the game world drawn in code
-- Web Audio API for sound effects and ambience, generated live
-- Recorded audio (all CC0): chapter and comic-page music, sound effects and the warden's hum, see Audio and art credits below
-- Comic pages for the intro, chapters, ward and ending, made for this jam
-- Vitest for unit tests and Playwright scripts for end to end runs
-- Static build, hosted on Vercel
+Released under the MIT License. See [LICENSE](LICENSE). Third-party assets remain under their own licenses, as listed in CREDITS.md.
 
-## Run locally
+---
 
-Requires Node.js 20 or newer.
-
-```bash
-npm install
-npm run dev      # develop
-npm run build    # production build in dist/
-npm test         # unit tests
-```
-
-Add `?debug=1` to the URL for a debug overlay.
-
-## Team
-
-Team Evangelion
-
-- Panem Chaitanya Pavan Kumar
-- Prakash Bhabad
-- Metta Venkata Ramana Murthy
-
-## Documents
-
-The project proposal is in this repo: [proposal.pdf](proposal.pdf).
-
-## Audio and art credits
-
-All recorded audio is CC0, from OpenGameArt contributors: Tozan, yd, TinyWorlds, NekroRave, Rogudex, congusbongus, epb9000, gmason, Spring Spring, Zane Little Music, Emma_MA, rubberduck, artisticdude and Bobjt. The warden hum is "woman humming distant echo" by Pennywind (Freesound, CC0).
-
-The comic pages were made for this jam entry by Team Evangelion.
-
-The exact file-by-file register of every shipped sound, music track and image is in [CREDITS.md](CREDITS.md).
-
-## Credits and license
-
-This game starts from the open source engine **MOTH**, released under the MIT license. This repository is also MIT licensed. This project rebuilds its look, characters, mechanics, text and story on top of that engine. The original copyright notice is kept in [LICENSE](LICENSE). Full attributions, including the audio, are in [CREDITS.md](CREDITS.md).
+*Team Evangelion*
