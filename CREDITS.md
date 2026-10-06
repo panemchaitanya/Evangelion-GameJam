@@ -70,4 +70,4 @@ No recorded or generated voice is included.
 ## Tools
 - Vite, React, TypeScript, Vitest, Playwright (testing).
 
-AI use disclosure: see docs/AI-DISCLOSURE.md.
+Disclosure: see docs/DISCLOSURE.md.

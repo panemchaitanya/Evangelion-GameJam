@@ -1,4 +1,4 @@
-# AI Use Disclosure
+# Disclosure
 
 Team Evangelion's design, story, direction and creative decisions are entirely our own. In line with the jam's rules, this file discloses the tools used in production.
 
