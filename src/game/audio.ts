@@ -158,7 +158,7 @@ class AudioEngine {
     const wind = ctx.createBufferSource(); wind.buffer = this.noiseBuf; wind.loop = true;
     const wf = ctx.createBiquadFilter(); wf.type = 'bandpass';
     wf.frequency.value = theme === 'machine' ? 300 : theme === 'pale' ? 700 : 480; wf.Q.value = 0.55;
-    const wg = ctx.createGain(); wg.gain.value = theme === 'deep' ? 0.035 : theme === 'pale' ? 0.045 : theme === 'machine' ? 0.022 : 0.06;
+    const wg = ctx.createGain(); wg.gain.value = theme === 'deep' ? 0.035 : theme === 'pale' ? 0.045 : theme === 'machine' ? 0.004 : 0.06;
     const wlfo = ctx.createOscillator(); wlfo.frequency.value = 0.07;
     const wlg = ctx.createGain(); wlg.gain.value = theme === 'machine' ? 30 : 190;
     wlfo.connect(wlg); wlg.connect(wf.frequency);
@@ -173,7 +173,7 @@ class AudioEngine {
       // electric hum
       const h = ctx.createOscillator(); h.type = 'sawtooth'; h.frequency.value = 120;
       const hf = ctx.createBiquadFilter(); hf.type = 'lowpass'; hf.frequency.value = 300;
-      const hg = ctx.createGain(); hg.gain.value = 0.006;
+      const hg = ctx.createGain(); hg.gain.value = 0;
       h.connect(hf); hf.connect(hg); hg.connect(out); h.start();
       this.ambStop.push(() => h.stop());
     }
@@ -206,7 +206,9 @@ class AudioEngine {
           // water drip
           this.tone('sine', 1500 + Math.random() * 700, 320, 0.28, 0.05, 0.002);
           if (Math.random() < 0.4) this.tone('sine', 1900, 400, 0.2, 0.03, 0.002, 0.18);
-        } else if (theme === 'machine' && r < 0.15) {
+        } else if (theme === 'machine') {
+          /* near-silent room: no random machine events */
+        } else if (false) {
           // distant metallic clank
           this.tone('sine', 180 + Math.random() * 120, 90, 0.35, 0.012);
           this.noise(0.1, 'lowpass', 900, 1, 0.006);
@@ -238,7 +240,7 @@ class AudioEngine {
     const wet = ctx.createGain(); wet.gain.value = 0.9; verb.connect(wet); wet.connect(out);
     const bus = ctx.createGain(); bus.gain.value = 1; bus.connect(out); bus.connect(verb);
     // pad: stacked saws through a slowly breathing low-pass; the harmonics carry on a phone speaker
-    const padG = ctx.createGain(); padG.gain.value = theme === 'pale' ? 0.05 : theme === 'machine' ? 0.04 : 0.07; padG.connect(bus);
+    const padG = ctx.createGain(); padG.gain.value = theme === 'pale' ? 0.05 : theme === 'machine' ? 0.01 : 0.07; padG.connect(bus);
     const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = theme === 'machine' ? 0.8 : 2; lp.frequency.value = theme === 'machine' ? 300 : 380; lp.connect(padG);
     const fl = ctx.createOscillator(); fl.frequency.value = 0.035;
     const flg = ctx.createGain(); flg.gain.value = theme === 'machine' ? 70 : 170; fl.connect(flg); flg.connect(lp.frequency); fl.start();
@@ -529,7 +531,7 @@ class AudioEngine {
     this.tone('sine', 105, 46, 0.13, 0.13 * v, 0.003);
   }
   lever() {
-    if (this.sample('mechanism_clank', 0.5)) return;
+    if (this.sample('mechanism_clank', 0.22)) return;
     this.noise(0.05, 'highpass', 1400, 1, 0.2, 0.002);
     this.tone('square', 230, 110, 0.16, 0.1, 0.002, 0.02);
     this.tone('triangle', 460, 430, 0.35, 0.05, 0.004, 0.06);

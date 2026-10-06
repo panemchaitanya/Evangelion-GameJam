@@ -24,7 +24,7 @@ export interface GameEvents {
 }
 
 // the three kids: shared sleep-coat base, different bodies and gifts
-export const MOM_REACH = 300, MOM_CATCH = 0.12, WARD_NEAR = 40, NEAR_CATCH = 0.6, MOM_REAR = 100;
+export const MOM_REACH = 300, MOM_CATCH = 1.0, WARD_NEAR = 40, NEAR_CATCH = 1.0, MOM_REAR = 100;
 export const KIDS = [
   { id: 'ness', name: 'Ness', w: 18, h: 38, jump: 1.06, run: 1.05, heavy: false, quiet: 1 },   // small: crawls through low gaps, jumps best
   { id: 'bram', name: 'Bram', w: 24, h: 50, jump: 0.95, run: 0.95, heavy: true, quiet: 1 },    // broad: pushes heavy crates
@@ -1506,7 +1506,7 @@ export class Game {
         shadowY: this.groundTopAt(this.px + this.pw / 2),
         kid: this.ch, w: this.pw, h: this.ph,
       },
-      wardens: this.wardens.map(w => ({ x: w.x, y: w.def.y, dir: w.dir, walking: w.pause <= 0, reach: w.def.reach ?? (w.def.mom ? MOM_REACH : 250), exp: w.def.mom ? w.exp * (0.55 / MOM_CATCH) : w.exp, mom: !!w.def.mom })),
+      wardens: this.wardens.map(w => ({ x: w.x, y: w.def.y, dir: w.dir, walking: w.pause <= 0, reach: w.def.reach ?? (w.def.mom ? MOM_REACH : 250), exp: w.exp * (0.55 / MOM_CATCH), lit: w.pause <= 0, mom: !!w.def.mom })),
       followers: this.mode === 'playing' || this.mode === 'dying' ? this.folCache : [],
       ghost: ghostPose && !ghostPose.done ? ghostPose : null,
       lang: this.lang,

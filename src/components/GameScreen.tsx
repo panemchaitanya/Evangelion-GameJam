@@ -126,7 +126,7 @@ export default function GameScreen({
         setIntro({ chapter, name, key: index + Date.now(), index });
         setChapterIndex(index);
         onProgress(index);
-        audio.bed(['ch01_hushed_forest', 'ch02_house_machine', 'ch03_flooded_cellar', 'ch04_old_wing', 'ch05_star_gate_tense'][index] ?? null);
+        audio.bed(['ch01_hushed_forest', 'ch02_house_machine', 'ch03_flooded_cellar', 'ch04_old_wing', 'ch05_star_gate_tense'][index] ?? null, index === 1 ? 0.05 : 0.22);
         // wordless comic page before each chapter, once per page load; skipped for QA/debug URLs
         const src = STORY.panels.chapter[index];
         if (src && src.length && !SHOWN_PAGES.has(index) && !/[?&](debug|qa)=/.test(location.search)) {

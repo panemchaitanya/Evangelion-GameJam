@@ -24,7 +24,7 @@ export interface RenderState {
   level: LevelDef;
   camX: number; camY: number;
   player: RenderPlayer | null;
-  wardens?: { x: number; y: number; dir: number; walking: boolean; reach: number; exp: number; mom?: boolean }[];
+  wardens?: { x: number; y: number; dir: number; walking: boolean; lit?: boolean; reach: number; exp: number; mom?: boolean }[];
   followers?: { kid: number; x: number; y: number; vx: number; vy: number; facing: number; grounded: boolean; runPhase: number; w: number; h: number; dead?: boolean; deadT?: number }[];
   crates: Rect[];
   gates: { def: NonNullable<LevelDef['gates']>[number]; open: number }[];
@@ -1255,7 +1255,7 @@ export function render(s: RenderState) {
     grad.addColorStop(0, w.mom ? `rgba(255,${Math.round(90 - r * 40)},${Math.round(80 - r * 40)},${0.42 + r * 0.25})` : `rgba(255,${Math.round(214 - r * 120)},${Math.round(130 - r * 90)},${0.34 + r * 0.25})`);
     grad.addColorStop(1, w.mom ? 'rgba(255,90,80,0)' : 'rgba(255,214,130,0)');
     g.fillStyle = grad;
-    g.beginPath(); g.moveTo(x0, w.y - 62); g.lineTo(x1, w.y - 120); g.lineTo(x1, w.y + 20); g.lineTo(x0, w.y - 40); g.closePath(); g.fill();
+    if (w.lit !== false) { g.beginPath(); g.moveTo(x0, w.y - 62); g.lineTo(x1, w.y - 120); g.lineTo(x1, w.y + 20); g.lineTo(x0, w.y - 40); g.closePath(); g.fill(); }
     g.save(); g.translate(w.x, w.y); g.scale(0.9, 0.9);
     drawMother(g, 0, 0, w.dir, w.walking, s.time, 0.95);
     g.restore();

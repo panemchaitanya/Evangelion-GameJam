@@ -15,7 +15,7 @@ const TRACKS: Record<string, { file: string; vol: number; fb?: string }> = {
   pageC: { file: 'page_C_grate_reveal_dread_swell.ogg', vol: 0.5, fb: 'ch3' },
   pageD: { file: 'page_D_escape_plan_home_warm_cello.ogg', vol: 0.5, fb: 'ch4' },
   ch1: { file: 'ch01_crawl_dread.ogg', vol: 0.5 },
-  ch2: { file: 'ch02_steam_house.ogg', vol: 0.5 },
+  ch2: { file: 'ch02_steam_house.ogg', vol: 0.22 },
   ch3: { file: 'ch03_boiler_deep.ogg', vol: 0.5 },
   ch4: { file: 'ch04_dark_hall_stalker.ogg', vol: 0.5 },
   ch5: { file: 'ch05_red_corridor_urgency.ogg', vol: 0.45 },

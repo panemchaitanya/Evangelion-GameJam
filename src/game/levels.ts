@@ -99,7 +99,7 @@ export const LEVELS: LevelDef[] = [
       { id: 'machine-roof', x: 4720, y: 220 },
     ],
     mothers: [{ x1: 1300, x2: 2300, y: 548, scale: 0.72 }, { x1: 4000, x2: 4900, y: 270, scale: 0.7 }],
-    checkpoints: [1250, 2050, 2950, 3850, 4950],
+    checkpoints: [975, 1250, 2050, 2950, 3420, 3850, 4950],
     hints: [
       { x: 380, y: 470, text: `${STORY.warden} hums. she always hums` },
       { x: 2900, y: 400, text: `${STORY.warden} locks every door. to keep us in, or something out?` },
@@ -155,7 +155,7 @@ export const LEVELS: LevelDef[] = [
     ],
     wardens: [{ x1: 2250, x2: 2400, y: 560, mom: true }],
     mothers: [{ x1: 1500, x2: 2000, y: 548, scale: 0.7 }],
-    checkpoints: [1300, 1980, 3260, 4350],
+    checkpoints: [1300, 1980, 2510, 3260, 4350],
     hints: [
       { x: 420, y: 470, text: 'the water keeps what it catches' },
       { x: 2680, y: 470, text: 'cross quickly' },
@@ -284,7 +284,7 @@ export const LEVELS: LevelDef[] = [
     ],
     wardens: [{ x1: 2050, x2: 2150, y: 560, mom: true }],
     mothers: [{ x1: 2200, x2: 3200, y: 548, scale: 0.72 }],
-    checkpoints: [680, 1120, 1380, 2250, 3050, 3450, 4720, 5280, 5700, 6640],
+    checkpoints: [680, 1120, 1380, 2290, 3050, 3450, 4720, 5280, 5700, 6640],
     hints: [
       { x: 300, y: 470, text: 'I am not brave. I am just awake' },
       { x: 1100, y: 400, text: 'I have run this way before. I think I always run this way' },
