@@ -2,7 +2,7 @@
 
 *A lullaby for the ones who stayed awake.*
 
-Part 1: Lullaby (repository name: Lullaby118)
+Part 1: Lullaby
 
 **Play it now: https://lullaby118-git-indy-evangelion.vercel.app/** (runs in any modern browser, phone or desktop, no install)
 

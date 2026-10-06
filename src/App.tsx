@@ -7,7 +7,7 @@ import { LEVELS, TOTAL_SHARDS, loadSave, storeSave } from './game/levels';
 import { loadSettings, storeSettings } from './game/types';
 import type { GameSettings } from './game/types';
 
-type Screen = 'title' | 'intro' | 'game' | 'endcards' | 'ward' | 'outro' | 'ending' | 'intropanels';
+type Screen = 'title' | 'intro' | 'game' | 'endcards' | 'ward' | 'outro' | 'ending' | 'intropanels' | 'teaser';
 const INTRO = STORY.intro;
 export type GameLanguage = 'ar' | 'en';
 
@@ -70,7 +70,7 @@ export default function App() {
     else if (screen === 'outro' && (STORY.panels.outro[panelStep] as { page?: boolean } | undefined)?.page) music.play('finale');
     else if (screen === 'ward') music.play('ward');
     else if (screen === 'endcards' || screen === 'outro') music.play('outro');
-    else if (screen === 'ending') music.play('finale');
+    else if (screen === 'ending' || screen === 'teaser') music.play('finale');
     else if (screen === 'intro') music.stop();
   }, [screen, panelStep]);
   // browsers block audio until the first tap: retry the current scene's track on the first pointer/key
@@ -225,7 +225,7 @@ export default function App() {
   if (screen === 'intropanels' || screen === 'outro') {
     const intro = screen === 'intropanels';
     const list = intro ? STORY.panels.intro : STORY.panels.outro;
-    const done = () => { setPanelStep(0); setScreen(intro ? 'title' : 'ending'); };
+    const done = () => { setPanelStep(0); setScreen(intro ? 'title' : 'teaser'); };
     const adv = () => { audio.chime(panelStep % 3); if (panelStep + 1 >= list.length) done(); else setPanelStep(panelStep + 1); };
     const p = list[panelStep] as { src: string; cap: string; page?: boolean } | undefined;
     if (!p) { queueMicrotask(done); return null; }
@@ -235,6 +235,17 @@ export default function App() {
         <img key={p.src} className={p.page ? "panel-img panel-page" : "panel-img"} src={p.src} alt="" onError={adv} />
                 {p.cap ? <p key={p.src + 'c'} className="panel-cap">{p.cap}</p> : null}
                 <button className="panel-skip" onClick={e => { e.stopPropagation(); done(); }}>skip</button>
+        <small className="intro-tap">tap to continue</small>
+      </div>
+    );
+  }
+
+  if (screen === 'teaser') {
+    return (
+      <div className="title-screen intro-screen teaser-screen" onClick={() => { audio.chime(1); setScreen('ending'); }} role="button" tabIndex={0}
+        onKeyDown={e => { if (e.code === 'Space' || e.code === 'Enter') setScreen('ending'); }}>
+        <p className="teaser-l1">End of Part One: Lullaby</p>
+        <p className="teaser-l2">Part Two: Vigil</p>
         <small className="intro-tap">tap to continue</small>
       </div>
     );

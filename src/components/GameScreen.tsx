@@ -314,7 +314,7 @@ export default function GameScreen({
       <canvas ref={canvasRef} className="game-canvas" aria-label="game world" />
 
       {page && (
-        <div className="panel-screen chapter-page" style={{ position: 'absolute', inset: 0, zIndex: 60 }} role="button" tabIndex={0}
+        <div className="panel-screen chapter-page" style={{ zIndex: 60 }} role="button" tabIndex={0}
           onClick={nextPage} onKeyDown={e => { if (e.code === 'Escape') closePage(); else if (e.code === 'Enter' || e.code === 'Space') nextPage(); }}>
           <img key={page} className="panel-img panel-page" src={page} alt="" onError={nextPage} />
           <button className="panel-skip" onClick={e => { e.stopPropagation(); closePage(); }}>skip</button>

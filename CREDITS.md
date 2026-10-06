@@ -1,6 +1,6 @@
 # Credits - THE STARS THAT SANK US TO SLEEP (Team Evangelion, Infinium'26 GameJam)
 
-*The Stars That Sank Us to Sleep, Part 1: Lullaby.* Repository name: Lullaby118.
+*The Stars That Sank Us to Sleep, Part 1: Lullaby.*
 
 ## Engine and base game
 - MOTH by ahmedallam222 (https://github.com/ahmedallam222/moth-game), MIT licence. This build starts from its TypeScript/canvas engine (physics, stalker AI, rope, water, level format) and modifies it: new palette and rendering, new character drawings, three-kid switching, heavy crates, rewritten English text and story.
@@ -11,7 +11,7 @@
 Everything below is a file in the shipped build. All recorded audio is CC0 as stated on its source page (OpenGameArt unless noted). The CC0 status comes from those pages and was not independently re-verified. No attribution is required by CC0; names are given for traceability. Sound effects and ambience not listed here are generated live in code (procedural Web Audio).
 
 ### Comic art (public/panels/)
-Made for this jam entry by Team Evangelion. Files: intro1.jpg, intro1b.jpg, intro2.jpg, intro3.jpg, pageA.jpg, pageB.jpg, pageC.jpg, pageD.jpg, pageE.jpg, outro1.jpg, outro2.jpg, finF1.jpg, finF2.jpg, finF3.jpg.
+Made for this jam entry by Team Evangelion. Files: finF1.jpg, finF2.jpg, finF3.jpg, finF4.jpg, intro0.jpg, intro1.jpg, intro1b.jpg, intro2.jpg, intro3.jpg, outro1.jpg, outro2.jpg, pageA.jpg, pageA0.jpg, pageA2.jpg, pageA3.jpg, pageA4.jpg, pageB.jpg, pageB0.jpg, pageB2.jpg, pageB3.jpg, pageC.jpg, pageC0.jpg, pageC2.jpg, pageD.jpg, pageD3.jpg, pageE.jpg.
 
 ### Game world and characters
 Drawn in code (canvas paths and gradients). No images, paintings or models from earlier builds are used.

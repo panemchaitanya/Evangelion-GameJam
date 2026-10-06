@@ -888,3 +888,11 @@ button:focus-visible { outline-color: rgba(232,185,74,.8); }
 .credits-body h3{font:600 13px system-ui;letter-spacing:.12em;text-transform:uppercase;margin:12px 0 4px;color:#E8B94A}
 .credits-body p{margin:4px 0;opacity:.9}
 .credits-tap{opacity:.5!important;margin-top:12px!important}
+/* comic pages stay inside the 16:9 gameplay area (same box as the canvas), letterboxed on any screen */
+.panel-screen { position: fixed !important; inset: auto !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%); width: min(100vw, calc(100dvh * 16 / 9)); height: min(100dvh, calc(100vw * 9 / 16)); overflow: hidden; }
+.panel-screen .panel-img, .panel-screen .panel-page { object-fit: contain; }
+
+.teaser-screen{flex-direction:column;gap:22px;text-align:center}
+.teaser-l1{margin:0;color:#e9d9b8;font:italic clamp(18px,3.2vw,30px) Georgia,serif;letter-spacing:.14em;opacity:0;animation:teaserIn 2.4s ease .6s forwards}
+.teaser-l2{margin:0;color:#8fa6ad;font:clamp(13px,2.2vw,20px) Georgia,serif;letter-spacing:.42em;text-transform:uppercase;opacity:0;animation:teaserIn 2.8s ease 3.4s forwards}
+@keyframes teaserIn{to{opacity:1}}
