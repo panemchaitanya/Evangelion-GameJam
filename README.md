@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/art/vigilcover.jpg" alt="Vigil, Part Two - Team Evangelion" width="100%"></p>
+<p align="center"><img src="docs/art/lullabycover.jpg" alt="Lullaby, Part One - Team Evangelion" width="100%"></p>
 
 # The Stars That Sank Us To Sleep
 ### Part 1: Lullaby
